@@ -1,0 +1,79 @@
+from fastapi import (
+    Depends,
+    HTTPException,
+    Response,
+    Cookie,
+    APIRouter,
+)
+from fastapi.responses import RedirectResponse
+from typing import Annotated
+from src.config import load_settings
+from src.database.database import get_db
+from src.database.models import User
+from src.services import user_service, session_service
+from src.utils.hashing_utils import verify_password
+import src.schemas.schemas as api
+
+import json
+from sqlalchemy.orm import Session as ORM_Session
+
+settings = load_settings()
+
+router = APIRouter()
+
+
+def set_cookies(user: User, session_id: str, response: Response):
+    # set a cookie with no secure options for the data cookie
+    # this cookie only contains user data that the client needs for ui-logic depending on the user
+    # this may be navigation, display of information etc
+    user_session = {
+        "user_email": user.email,
+        "user_name": user.name,
+    }
+    response.set_cookie(
+        key="user_session",
+        value=json.dumps(user_session),
+        secure=True,  # only allow on https and http for localhost
+        httponly=False,  # allow javascript api access
+        samesite="lax",  # only send to cookie with requests from cookies origin site (subdomains included)
+        path="/",
+        domain=settings.COOKIE_DOMAIN,
+    )
+
+    # set the cookie with the most secure options for the secure cookie
+    # this cookie is used to authenticate the user
+    response.set_cookie(
+        key="session_id",
+        value=session_id,
+        secure=True,  # only allow on https and http for localhost
+        httponly=True,  # disables javascript api access
+        samesite="lax",  # only send to cookie with requests from cookies origin site (subdomains included)
+        path="/",
+        domain=settings.COOKIE_DOMAIN,
+    )
+
+
+@router.post("/login", tags=["user"])
+def login(
+    model: api.UserLoginRequest,
+    response: Response,
+    db: Annotated[ORM_Session, Depends(get_db)],
+):
+    # get the user with the given email
+    user = user_service.get_user(model.email, db)
+
+    if user is None:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid email or password",
+        )
+
+    # the given password is invalid (not the same)
+    if not verify_password(model.password_plain, user.password_hash):
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid email or password",
+        )
+
+    session = session_service.create_session(user.email, db)
+    set_cookies(user=user, session_id=session.id, response=response)
