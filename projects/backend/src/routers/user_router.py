@@ -12,6 +12,7 @@ from src.database.database import get_db
 from src.database.models import User
 from src.services import user_service, session_service
 from src.utils.hashing_utils import verify_password
+from src.utils.user_utils import get_current_user
 import src.schemas.schemas as api
 
 import json
@@ -77,3 +78,35 @@ def login(
 
     session = session_service.create_session(user.email, db)
     set_cookies(user=user, session_id=session.id, response=response)
+
+
+@router.post("/register", tags=["user"], response_model=api.UserResponse)
+def register(
+    model: api.UserRegisterRequest,
+    db: Annotated[ORM_Session, Depends(get_db)],
+):
+    # get the user with the given email
+    user = user_service.get_user(model.email, db)
+
+    if user:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Account for the user with the email {model.email} already registered",
+        )
+
+    return user_service.create_user(model.email, model.name, model.password_plain, db)
+
+
+@router.post("/logout", tags=["user"])
+def logout(
+    response: Response,
+    user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[ORM_Session, Depends(get_db)],
+    session_id: str = Cookie(None),
+):
+    # logging out removes the session from the persistent storage
+    session_service.remove_session(session_id, db)
+
+    # tell the client to delete the cookie
+    response.delete_cookie(key="session_id")
+    response.delete_cookie(key="user_session")

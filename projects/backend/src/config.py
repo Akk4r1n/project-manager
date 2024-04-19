@@ -1,6 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import ValidationError
-from typing import Union, Literal, Optional
+from typing import Union, Literal, Optional, List
 
 import os
 
@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     DB_HOST: str
     DB_NAME: str
     DB_TYPE: Union[Literal["mysql"], Literal["sqlite"]]
+
+    BACKEND_ALLOWED_ORIGINS: List[str]
 
     COOKIE_DOMAIN: Optional[str] = None
 
