@@ -65,7 +65,7 @@ def update_project(
 
 
 @router.delete("/{uuid}", tags=["projects"])
-def delete_state(
+def delete_project(
     uuid: str,
     user: Annotated[User, Depends(get_current_user)],
     db: Annotated[ORM_Session, Depends(get_db)],

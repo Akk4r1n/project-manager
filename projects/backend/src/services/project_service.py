@@ -2,7 +2,7 @@ from typing import List, Sequence
 from sqlalchemy import select
 from typing import Optional
 from src.database.models import Project, User
-from src.services import chat_service
+from src.services import chat_service, task_service
 from secrets import token_urlsafe
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session as ORM_Session
@@ -73,6 +73,8 @@ def delete(uuid: str, db: ORM_Session) -> None:
     project = db.query(Project).filter(Project.uuid == uuid).first()
 
     if project is not None:
+        # also delete all tasks for this project
+        [db.delete(task) for task in project.tasks]
         # also delete chat of this project
         chat_service.delete(project.chat_uuid, db)
         db.delete(project)

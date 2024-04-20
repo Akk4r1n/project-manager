@@ -44,3 +44,27 @@ class CreateProjectRequest(BaseModel):
 class UpdateProjectRequest(BaseModel):
     title: str
     description: str
+
+
+class CreateTaskRequest(BaseModel):
+    title: str
+    description: str
+    project_uuid: str
+    planned_minutes: Optional[int] = None
+
+
+class TaskResponse(BaseModel):
+    uuid: str
+    title: str
+    description: str
+    project_uuid: str
+    created_at: datetime
+    planned_minutes: Optional[int] = None
+    actual_minutes: Optional[int] = None
+
+
+class UpdateTaskRequest(BaseModel):
+    title: str
+    description: str
+    planned_minutes: Optional[int] = None
+    actual_minutes: Optional[int] = None
