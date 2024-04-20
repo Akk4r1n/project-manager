@@ -27,6 +27,9 @@ def create(title: str, description: str, owner: User, db: ORM_Session) -> Projec
         chat_uuid=chat.uuid,
     )
 
+    # the owner is also a project member
+    project.member_users.append(owner)
+
     db.add(project)
     db.commit()
     db.refresh(project)

@@ -68,3 +68,16 @@ class UpdateTaskRequest(BaseModel):
     description: str
     planned_minutes: Optional[int] = None
     actual_minutes: Optional[int] = None
+
+
+class ProjectMemberResponse(BaseModel):
+    project_uuid: str
+    user_email: str
+
+
+class RemoveProjectMemberRequest(BaseModel):
+    user_emails: List[str]
+
+
+class AddProjectMemberRequest(BaseModel):
+    user_emails: List[str]

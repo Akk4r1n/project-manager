@@ -1,9 +1,14 @@
-from typing import Optional
+from typing import Optional, Sequence
 from src.database.models import User
 from secrets import token_urlsafe
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session as ORM_Session
 from src.utils.hashing_utils import get_password_hash, verify_password
+from sqlalchemy import select
+
+
+def get_users(db: ORM_Session) -> Sequence[User]:
+    return db.execute(select(User)).scalars().all()
 
 
 def get_user(user_email: str, db: ORM_Session) -> Optional[User]:
