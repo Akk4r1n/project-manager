@@ -1,0 +1,16 @@
+<div class="flex justify-between items-center p-2 flex-shrink-0 pl-4 pr-4">
+  <span class="text-lg font-bold">Projects</span>
+  <button class="btn btn-primary rounded-2xl">+ Create Project</button>
+</div>
+
+<div class="w-full h-[1px] bg-gray-300"></div>
+
+<div
+  class="overflow-auto grid grid-cols-1 gap-y-16 gap-x-4 pt-12 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+>
+  <app-project-card
+    class="shadow-lg bg-white rounded-2xl border-gray-300 border hover:scale-[1.01] hover:shadow-2xl hover:cursor-pointer"
+    [project]="project"
+    *ngFor="let project of projects"
+  ></app-project-card>
+</div>
