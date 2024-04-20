@@ -1,9 +1,14 @@
 from typing import Annotated
 from fastapi import Cookie, HTTPException, Depends
-from src.database.models import User
+from src.database.models import User, Session
 from src.database.database import get_db
 from src.services import session_service, user_service
 from sqlalchemy.orm import Session as ORM_Session
+from datetime import datetime
+
+
+def is_expired(session: Session) -> bool:
+    return datetime.now() > session.expires_at
 
 
 def get_current_user(
@@ -15,7 +20,7 @@ def get_current_user(
 
     session = session_service.get_session(session_id, db)
 
-    if session is None or session.is_expired():
+    if session is None or is_expired(session):
         raise HTTPException(status_code=401, detail="Session invalid")
 
     user = user_service.get_user(session.user_email, db)

@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from src.config import load_settings
-from src.routers import user_router
+from src.routers import user_router, project_router
 
 settings = load_settings()
 
@@ -17,6 +17,7 @@ app.add_middleware(
 )
 
 app.include_router(user_router, prefix="/users")
+app.include_router(project_router, prefix="/projects")
 
 
 @app.get("/", tags=["index"])

@@ -22,14 +22,14 @@ class Project(Base):
     title = mapped_column(String(200))
     description = mapped_column(String(1000))
     created_at = mapped_column(DateTime)
-    owner_email = mapped_column(String(255))
-    chat_uuid = mapped_column(String(255))
+    owner_email = mapped_column(String(255), ForeignKey("users.email"))
+    chat_uuid = mapped_column(String(255), ForeignKey("chats.uuid"))
 
     owner_user: Mapped["User"] = relationship(
         "User", back_populates="owned_projects", foreign_keys=[owner_email]
     )
 
-    tasks: Mapped[List["Task"]] = relationship("Tasks", back_populates="project")
+    tasks: Mapped[List["Task"]] = relationship("Task", back_populates="project")
 
     chat: Mapped["Chat"] = relationship(
         "Chat", back_populates="project", foreign_keys=[chat_uuid]
@@ -48,7 +48,7 @@ class User(Base):
     password_hash = mapped_column(String(100))
 
     owned_projects: Mapped[List["Project"]] = relationship(
-        "Project", back_populates="owner_user"
+        "Project", back_populates="owner_user", foreign_keys="[Project.owner_email]"
     )
 
     authored_messages: Mapped[List["Message"]] = relationship(
@@ -60,6 +60,10 @@ class User(Base):
     )
 
     sessions: Mapped[List["Session"]] = relationship("Session", back_populates="user")
+
+    messages: Mapped[List["Message"]] = relationship(
+        "Message", back_populates="author_user", overlaps="authored_messages"
+    )
 
 
 class Task(Base):
@@ -83,7 +87,9 @@ class Chat(Base):
 
     uuid = mapped_column(String(255), primary_key=True, index=True)
 
-    project: Mapped["Project"] = relationship("Project", back_populates="chat")
+    project: Mapped["Project"] = relationship(
+        "Project", back_populates="chat", foreign_keys="[Project.chat_uuid]"
+    )
 
     messages: Mapped[List["Message"]] = relationship("Message", back_populates="chat")
 
@@ -92,8 +98,8 @@ class Message(Base):
     __tablename__ = "messages"
 
     uuid = mapped_column(String(255), primary_key=True, index=True)
-    author_email = mapped_column(String(255))
-    chat_uuid = mapped_column(String(255))
+    author_email = mapped_column(String(255), ForeignKey("users.email"))
+    chat_uuid = mapped_column(String(255), ForeignKey("chats.uuid"))
     content = mapped_column(String(1000))
     created_at = mapped_column(DateTime)
 

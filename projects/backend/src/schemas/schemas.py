@@ -25,3 +25,22 @@ class UserRegisterRequest(BaseModel):
 class UserResponse(BaseModel):
     email: EmailStr
     name: str
+
+
+class ProjectResponse(BaseModel):
+    uuid: str
+    title: str
+    description: str
+    created_at: datetime
+    owner_email: str
+    chat_uuid: str
+
+
+class CreateProjectRequest(BaseModel):
+    title: str
+    description: str
+
+
+class UpdateProjectRequest(BaseModel):
+    title: str
+    description: str
