@@ -78,7 +78,8 @@ def delete(uuid: str, db: ORM_Session) -> None:
     if project is not None:
         # also delete all tasks for this project
         [db.delete(task) for task in project.tasks]
-        # also delete chat of this project
-        chat_service.delete(project.chat_uuid, db)
+        # delete chat and its messages
+        [db.delete(message) for message in project.chat.messages]
+        db.delete(project.chat)
         db.delete(project)
         db.commit()

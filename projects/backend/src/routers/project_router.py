@@ -15,6 +15,9 @@ from src.services import (
     session_service,
     project_service,
     project_member_service,
+    task_service,
+    chat_service,
+    message_service,
 )
 from src.utils.hashing_utils import verify_password
 from src.utils.user_utils import get_current_user
@@ -80,7 +83,7 @@ def delete_project(
 
 @router.get(
     "/{uuid}/members",
-    tags=["projects"],
+    tags=["members"],
     response_model=Sequence[api.ProjectMemberResponse],
 )
 def get_project_members(
@@ -98,7 +101,7 @@ def get_project_members(
 
 @router.post(
     "/{uuid}/members",
-    tags=["projects"],
+    tags=["members"],
 )
 def add_project_members(
     uuid: str,
@@ -127,7 +130,7 @@ def add_project_members(
 
 @router.delete(
     "/{uuid}/members",
-    tags=["projects"],
+    tags=["members"],
 )
 def remove_project_members(
     uuid: str,
@@ -146,3 +149,163 @@ def remove_project_members(
         )
     for user_email in model.user_emails:
         project_member_service.delete(uuid, user_email, db)
+
+
+@router.get("/{uuid}/tasks", tags=["tasks"], response_model=Sequence[api.TaskResponse])
+def get_tasks(
+    uuid: str,
+    user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[ORM_Session, Depends(get_db)],
+):
+    return task_service.read_all(uuid, db)
+
+
+@router.get(
+    "/{uuid}/tasks/{task_uuid}", tags=["tasks"], response_model=api.TaskResponse
+)
+def get_task(
+    uuid: str,
+    task_uuid: str,
+    user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[ORM_Session, Depends(get_db)],
+):
+    task = task_service.read(uuid, task_uuid, db)
+    if task is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Task with uuid {task_uuid} on the project with the uuid {uuid} not found",
+        )
+    return task
+
+
+@router.post("/{uuid}/tasks", tags=["tasks"], response_model=api.TaskResponse)
+def create_task(
+    uuid: str,
+    model: api.CreateTaskRequest,
+    user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[ORM_Session, Depends(get_db)],
+):
+    # check if project exists
+    project = project_service.read(uuid, db)
+
+    if project is None:
+        raise HTTPException(
+            status_code=404, detail=f"Project with uuid {uuid} not found"
+        )
+
+    return task_service.create(
+        model.title, model.description, uuid, db, model.planned_minutes
+    )
+
+
+@router.put(
+    "/{uuid}/tasks/{task_uuid}", tags=["tasks"], response_model=api.TaskResponse
+)
+def update_task(
+    uuid: str,
+    task_uuid: str,
+    model: api.UpdateTaskRequest,
+    user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[ORM_Session, Depends(get_db)],
+):
+    # check if project exists
+    project = project_service.read(uuid, db)
+
+    if project is None:
+        raise HTTPException(
+            status_code=404, detail=f"Project with uuid {uuid} not found"
+        )
+
+    # check if task exists
+    task = task_service.read(uuid, task_uuid, db)
+
+    if task is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Task with uuid {task_uuid} on the project with the uuid {uuid} not found",
+        )
+
+    return task_service.update(
+        task_uuid,
+        model.title,
+        model.description,
+        db,
+        model.planned_minutes,
+        model.actual_minutes,
+    )
+
+
+@router.delete("/{uuid}/tasks/{task_uuid}", tags=["tasks"])
+def delete_task(
+    uuid: str,
+    task_uuid: str,
+    user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[ORM_Session, Depends(get_db)],
+):
+    # check if project exists
+    project = project_service.read(uuid, db)
+
+    if project is None:
+        raise HTTPException(
+            status_code=404, detail=f"Project with uuid {uuid} not found"
+        )
+
+    task_service.delete(task_uuid, db)
+
+
+@router.get("/{uuid}/chat", tags=["chat"], response_model=api.ChatResponse)
+def get_chat(
+    uuid: str,
+    user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[ORM_Session, Depends(get_db)],
+):
+    # check if project exists
+    project = project_service.read(uuid, db)
+
+    if project is None:
+        raise HTTPException(
+            status_code=404, detail=f"Project with uuid {uuid} not found"
+        )
+
+    return chat_service.read(uuid, db)
+
+
+@router.get(
+    "/{uuid}/chat/messages",
+    tags=["messages"],
+    response_model=Sequence[api.MessageResponse],
+)
+def get_messages(
+    uuid: str,
+    user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[ORM_Session, Depends(get_db)],
+):
+    # check if project exists
+    project = project_service.read(uuid, db)
+
+    if project is None:
+        raise HTTPException(
+            status_code=404, detail=f"Project with uuid {uuid} not found"
+        )
+
+    return message_service.read_all(uuid, db)
+
+
+@router.post(
+    "/{uuid}/chat/messages", tags=["messages"], response_model=api.MessageResponse
+)
+def create_message(
+    uuid: str,
+    model: api.CreateMessageRequest,
+    user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[ORM_Session, Depends(get_db)],
+):
+    # check if project exists
+    project = project_service.read(uuid, db)
+
+    if project is None:
+        raise HTTPException(
+            status_code=404, detail=f"Project with uuid {uuid} not found"
+        )
+
+    return message_service.create(user.email, project.chat_uuid, model.content, db)

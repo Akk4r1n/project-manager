@@ -19,11 +19,11 @@ class Project(Base):
     __tablename__ = "projects"
 
     uuid = mapped_column(String(255), primary_key=True, index=True)
-    title = mapped_column(String(200))
-    description = mapped_column(String(1000))
-    created_at = mapped_column(DateTime)
-    owner_email = mapped_column(String(255), ForeignKey("users.email"))
-    chat_uuid = mapped_column(String(255), ForeignKey("chats.uuid"))
+    title = mapped_column(String(200), nullable=False)
+    description = mapped_column(String(1000), nullable=False)
+    created_at = mapped_column(DateTime, nullable=False)
+    owner_email = mapped_column(String(255), ForeignKey("users.email"), nullable=False)
+    chat_uuid = mapped_column(String(255), ForeignKey("chats.uuid"), nullable=False)
 
     owner_user: Mapped["User"] = relationship(
         "User", back_populates="owned_projects", foreign_keys=[owner_email]
@@ -44,8 +44,8 @@ class User(Base):
     __tablename__ = "users"
 
     email = mapped_column(String(255), primary_key=True, index=True)
-    name = mapped_column(String(100))
-    password_hash = mapped_column(String(100))
+    name = mapped_column(String(100), nullable=False)
+    password_hash = mapped_column(String(100), nullable=False)
 
     owned_projects: Mapped[List["Project"]] = relationship(
         "Project", back_populates="owner_user", foreign_keys="[Project.owner_email]"
@@ -70,10 +70,12 @@ class Task(Base):
     __tablename__ = "tasks"
 
     uuid = mapped_column(String(255), primary_key=True, index=True)
-    title = mapped_column(String(200))
-    description = mapped_column(String(1000))
-    project_uuid = mapped_column(String(255), ForeignKey("projects.uuid"))
-    created_at = mapped_column(DateTime)
+    title = mapped_column(String(200), nullable=False)
+    description = mapped_column(String(1000), nullable=False)
+    project_uuid = mapped_column(
+        String(255), ForeignKey("projects.uuid"), nullable=False
+    )
+    created_at = mapped_column(DateTime, nullable=False)
     planned_minutes = mapped_column(Integer, nullable=True)
     actual_minutes = mapped_column(Integer, nullable=True)
 
@@ -98,10 +100,10 @@ class Message(Base):
     __tablename__ = "messages"
 
     uuid = mapped_column(String(255), primary_key=True, index=True)
-    author_email = mapped_column(String(255), ForeignKey("users.email"))
-    chat_uuid = mapped_column(String(255), ForeignKey("chats.uuid"))
-    content = mapped_column(String(1000))
-    created_at = mapped_column(DateTime)
+    author_email = mapped_column(String(255), ForeignKey("users.email"), nullable=False)
+    chat_uuid = mapped_column(String(255), ForeignKey("chats.uuid"), nullable=False)
+    content = mapped_column(String(1000), nullable=False)
+    created_at = mapped_column(DateTime, nullable=False)
 
     chat: Mapped["Chat"] = relationship(
         "Chat", back_populates="messages", foreign_keys=[chat_uuid]
@@ -116,8 +118,8 @@ class Session(Base):
     __tablename__ = "sessions"
 
     id = mapped_column(String(255), primary_key=True, index=True)
-    user_email = mapped_column(String(255), ForeignKey("users.email"))
-    expires_at = mapped_column(DateTime)
+    user_email = mapped_column(String(255), ForeignKey("users.email"), nullable=False)
+    expires_at = mapped_column(DateTime, nullable=False)
 
     user: Mapped["User"] = relationship(
         "User", back_populates="sessions", foreign_keys=[user_email]

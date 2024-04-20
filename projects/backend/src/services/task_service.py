@@ -1,5 +1,5 @@
 from typing import List, Sequence
-from sqlalchemy import select
+from sqlalchemy import select, and_
 from typing import Optional
 from src.database.models import Project, User, Task
 from src.services import chat_service
@@ -36,12 +36,20 @@ def create(
     return task
 
 
-def read_all(db: ORM_Session) -> Sequence[Task]:
-    return db.execute(select(Task)).scalars().all()
+def read_all(project_uuid: str, db: ORM_Session) -> Sequence[Task]:
+    return (
+        db.execute(select(Task).where(Task.project_uuid == project_uuid))
+        .scalars()
+        .all()
+    )
 
 
-def read(uuid: str, db: ORM_Session) -> Optional[Task]:
-    return db.query(Task).filter(Task.uuid == uuid).first()
+def read(project_uuid: str, task_uuid: str, db: ORM_Session) -> Optional[Task]:
+    return (
+        db.query(Task)
+        .where(and_(Task.project_uuid == project_uuid, Task.uuid == task_uuid))
+        .first()
+    )
 
 
 def update(

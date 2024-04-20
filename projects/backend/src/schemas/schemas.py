@@ -49,7 +49,6 @@ class UpdateProjectRequest(BaseModel):
 class CreateTaskRequest(BaseModel):
     title: str
     description: str
-    project_uuid: str
     planned_minutes: Optional[int] = None
 
 
@@ -81,3 +80,19 @@ class RemoveProjectMemberRequest(BaseModel):
 
 class AddProjectMemberRequest(BaseModel):
     user_emails: List[str]
+
+
+class ChatResponse(BaseModel):
+    uuid: str
+
+
+class CreateMessageRequest(BaseModel):
+    content: str
+
+
+class MessageResponse(BaseModel):
+    uuid: str
+    author_email: str
+    chat_uuid: str
+    content: str
+    created_at: datetime

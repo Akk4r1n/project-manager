@@ -1,7 +1,7 @@
 from typing import List, Sequence
 from sqlalchemy import select
 from typing import Optional
-from src.database.models import Chat
+from src.database.models import Chat, Project
 from secrets import token_urlsafe
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session as ORM_Session
@@ -22,18 +22,11 @@ def create(db: ORM_Session) -> Chat:
     return chat
 
 
-def read_all(db: ORM_Session) -> Sequence[Chat]:
-    return db.execute(select(Chat)).scalars().all()
+def read(project_uuid: str, db: ORM_Session) -> Chat:
+    stmt = select(Project).where(Project.uuid == project_uuid)
+    project = db.execute(stmt).scalars().first()
 
+    if project is None:
+        raise Exception(f"Project with uuid ${project_uuid} not found")
 
-def read(uuid: str, db: ORM_Session) -> Optional[Chat]:
-    return db.query(Chat).filter(Chat.uuid == uuid).first()
-
-
-def delete(uuid: str, db: ORM_Session) -> None:
-    chat = db.query(Chat).filter(Chat.uuid == uuid).first()
-
-    if chat is not None:
-        # also delete all messages
-        db.delete(chat)
-        db.commit()
+    return project.chat
