@@ -2,13 +2,20 @@ import { CommonModule } from '@angular/common';
 import { Component, type OnInit } from '@angular/core';
 import { Project } from '../../interfaces/domain';
 import { ProjectCardComponent } from '../../components/project-card/project-card.component';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.css',
-  imports: [CommonModule, ProjectCardComponent],
+  imports: [
+    CommonModule,
+    ProjectCardComponent,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+  ],
 })
 export class ProjectsComponent implements OnInit {
   projects: Project[] = [

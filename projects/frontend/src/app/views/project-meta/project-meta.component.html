@@ -1,0 +1,88 @@
+<form
+  class="w-full flex flex-col gap-3 max-w-5xl"
+  [formGroup]="formGroup"
+  (ngSubmit)="onSubmit()"
+>
+  <label class="form-control w-full">
+    <div class="label">
+      <span class="label-text">Uuid</span>
+    </div>
+    <textarea
+      readonly
+      formControlName="uuid"
+      class="textarea textarea-bordered textarea-md w-full resize-none h-24 input-disabled"
+      [value]="project.uuid"
+    ></textarea>
+  </label>
+
+  <label class="form-control w-full">
+    <div class="label">
+      <span class="label-text">Title</span>
+    </div>
+    <textarea
+      formControlName="title"
+      placeholder="Provide a title that explains your project concisely"
+      class="textarea textarea-bordered textarea-md w-full resize-none h-24"
+    ></textarea>
+  </label>
+
+  <label class="form-control w-full">
+    <div class="label">
+      <span class="label-text">Description</span>
+    </div>
+    <textarea
+      formControlName="description"
+      placeholder="Provide a description and explain your project in full detail"
+      class="textarea textarea-bordered textarea-md w-full resize-none h-96"
+    ></textarea>
+  </label>
+
+  <label class="form-control w-full">
+    <div class="label">
+      <span class="label-text">Creation date</span>
+    </div>
+    <textarea
+      readonly
+      formControlName="createdAt"
+      class="textarea textarea-bordered textarea-md w-full resize-none h-24 input-disabled"
+      [value]="project.createdAt | date : 'fullDate'"
+    ></textarea>
+  </label>
+
+  <span class="font-semibold">Owner</span>
+
+  <label class="form-control w-full">
+    <div class="label">
+      <span class="label-text">Name</span>
+    </div>
+    <textarea
+      readonly
+      formControlName="ownerName"
+      class="textarea textarea-bordered textarea-md w-full resize-none h-24 input-disabled"
+      value="Jeremy"
+    ></textarea>
+  </label>
+
+  <label class="form-control w-full">
+    <div class="label">
+      <span class="label-text">Email</span>
+    </div>
+    <textarea
+      readonly
+      formControlName="ownerEmail"
+      class="textarea textarea-bordered textarea-md w-full resize-none h-24 input-disabled"
+      value="jeremy@gmail.com"
+    ></textarea>
+  </label>
+
+  <button [disabled]="!formGroup.valid" class="btn btn-primary w-full mt-4">
+    Save changes
+  </button>
+</form>
+
+<ng-icon
+  [routerLink]="'../..'"
+  size="24px"
+  class="absolute top-4 left-4 text-gray-600 rounded-full hover:cursor-pointer"
+  name="heroArrowLeft"
+></ng-icon>

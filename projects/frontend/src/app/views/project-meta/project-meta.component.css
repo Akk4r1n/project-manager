@@ -1,0 +1,3 @@
+:host {
+  @apply overflow-auto p-8 flex flex-col items-center relative;
+}

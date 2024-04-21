@@ -10,11 +10,19 @@ import {
 } from '@ng-icons/heroicons/outline';
 import { Project } from '../../interfaces/domain';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-project-card',
   standalone: true,
-  imports: [CommonModule, NgIconComponent, TruncatePipe],
+  imports: [
+    CommonModule,
+    NgIconComponent,
+    TruncatePipe,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+  ],
   templateUrl: './project-card.component.html',
   styleUrl: './project-card.component.css',
   viewProviders: [
