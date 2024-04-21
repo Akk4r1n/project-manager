@@ -1,6 +1,23 @@
-<p>project-detail works!</p>
+<div class="flex justify-between items-end p-2 flex-shrink-0 pl-4 pr-4">
+  <div class="flex flex-col gap-4">
+    <span class="text-lg font-bold">{{ project.title }}</span>
+    <span class="text-gray-600 text-sm">{{ project.description }}</span>
+    <div class="flex">
+      <div class="w-8">
+        <img class="rounded-full" alt="profile" src="assets/avatar_two.jpg" />
+      </div>
 
-<p>The uuid is: {{ _uuid }}</p>
+      <div class="w-8">
+        <img class="rounded-full" alt="profile" src="assets/avatar_one.png" />
+      </div>
+
+      <button class="btn btn-primary btn-sm btn-circle">+</button>
+    </div>
+    <button class="btn btn-primary rounded-2xl">+ Add new Task</button>
+  </div>
+</div>
+
+<div class="w-full h-[1px] bg-gray-300"></div>
 
 <ng-icon
   [routerLink]="'../..'"
