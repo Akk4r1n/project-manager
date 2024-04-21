@@ -35,8 +35,8 @@
   class="overflow-auto grid grid-cols-1 gap-y-16 gap-x-4 pt-12 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
 >
   <app-task-card
-    (click)="openDialog(task)"
-    class="shadow-lg bg-white rounded-2xl border-gray-300 border hover:scale-[1.01] hover:shadow-2xl hover:cursor-pointer"
+    (editClick)="openDialog(task)"
+    class="shadow-lg bg-white rounded-2xl border-gray-300 border hover:scale-[1.01] hover:shadow-2xl"
     [task]="task"
     *ngFor="let task of tasks"
   ></app-task-card>

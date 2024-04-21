@@ -7,6 +7,7 @@ import {
   heroChatBubbleBottomCenterText,
   heroClock,
   heroEllipsisVertical,
+  heroPencilSquare,
 } from '@ng-icons/heroicons/outline';
 import { Project } from '../../interfaces/domain';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
@@ -32,6 +33,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
       heroChatBubbleBottomCenterText,
       heroClock,
       heroEllipsisVertical,
+      heroPencilSquare,
     }),
   ],
 })

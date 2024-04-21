@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { heroArrowLeft } from '@ng-icons/heroicons/outline';
+import { heroArrowLeft, heroPencilSquare } from '@ng-icons/heroicons/outline';
 import { Project, Task } from '../../interfaces/domain';
 import { TaskCardComponent } from '../../components/task-card/task-card.component';
 import {
@@ -27,6 +27,7 @@ import {
   viewProviders: [
     provideIcons({
       heroArrowLeft,
+      heroPencilSquare,
     }),
   ],
   providers: [DatePipe],

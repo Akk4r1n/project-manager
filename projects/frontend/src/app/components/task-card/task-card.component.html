@@ -26,3 +26,10 @@
     <span class="text-gray-600">{{ task.createdAt | date : "shortDate" }}</span>
   </div>
 </div>
+
+<ng-icon
+  (click)="onEditClick()"
+  size="24px"
+  class="absolute top-4 right-4 text-gray-600 rounded-full hover:cursor-pointer"
+  name="heroPencilSquare"
+></ng-icon>
