@@ -1,10 +1,23 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { heroArrowLeft } from '@ng-icons/heroicons/outline';
 import { Project, Task } from '../../interfaces/domain';
 import { TaskCardComponent } from '../../components/task-card/task-card.component';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-project-detail',
@@ -16,6 +29,7 @@ import { TaskCardComponent } from '../../components/task-card/task-card.componen
       heroArrowLeft,
     }),
   ],
+  providers: [DatePipe],
   imports: [
     CommonModule,
     NgIconComponent,
@@ -23,10 +37,17 @@ import { TaskCardComponent } from '../../components/task-card/task-card.componen
     RouterLink,
     RouterLinkActive,
     TaskCardComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    DatePipe,
   ],
 })
-export class ProjectDetailComponent {
+export class ProjectDetailComponent implements AfterViewInit {
+  @ViewChild('taskModal') dialog!: ElementRef<HTMLDialogElement>;
+
   public _uuid!: string;
+
+  formGroup: any;
 
   public project: Project = {
     uuid: '34ed8ba3-f7b4-4565-a5a9-b5605b0d8df4',
@@ -46,7 +67,6 @@ export class ProjectDetailComponent {
         'Create wireframes for the user interface design of the e-commerce platform.',
       createdAt: new Date('2023-03-12'),
       projectUuid: '1',
-      plannedMinutes: 240,
       actualMinutes: 220,
     },
     {
@@ -66,7 +86,6 @@ export class ProjectDetailComponent {
         'Develop the homepage of the e-commerce platform using HTML, CSS, and JavaScript.',
       createdAt: new Date('2023-03-20'),
       projectUuid: '1',
-      plannedMinutes: 720,
       actualMinutes: 680,
     },
     {
@@ -97,7 +116,6 @@ export class ProjectDetailComponent {
       createdAt: new Date('2023-04-10'),
       projectUuid: '1',
       plannedMinutes: 480,
-      actualMinutes: 460,
     },
     {
       uuid: '7',
@@ -106,8 +124,6 @@ export class ProjectDetailComponent {
         'Develop the shopping cart feature to allow users to add and manage items in their cart.',
       createdAt: new Date('2023-04-15'),
       projectUuid: '1',
-      plannedMinutes: 720,
-      actualMinutes: 700,
     },
     {
       uuid: '8',
@@ -117,7 +133,6 @@ export class ProjectDetailComponent {
       createdAt: new Date('2023-04-20'),
       projectUuid: '1',
       plannedMinutes: 600,
-      actualMinutes: 620,
     },
     {
       uuid: '9',
@@ -126,8 +141,6 @@ export class ProjectDetailComponent {
         'Conduct user testing sessions and gather feedback for further improvements.',
       createdAt: new Date('2023-04-25'),
       projectUuid: '1',
-      plannedMinutes: 480,
-      actualMinutes: 460,
     },
     {
       uuid: '10',
@@ -137,13 +150,67 @@ export class ProjectDetailComponent {
       createdAt: new Date('2023-04-30'),
       projectUuid: '1',
       plannedMinutes: 240,
-      actualMinutes: 220,
     },
   ];
+
+  selectedTask?: Task;
 
   @Input()
   set uuid(projectUuid: string) {
     console.log('setting uuid of project detail...');
     this._uuid = projectUuid;
+  }
+
+  constructor(
+    private renderer: Renderer2,
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe
+  ) {
+    this.formGroup = this.formBuilder.group({
+      uuid: ['', [Validators.required]],
+      title: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      plannedMinutes: ['', []],
+      actualMinutes: ['', []],
+      createdAt: ['', [Validators.required]],
+    });
+  }
+
+  ngAfterViewInit(): void {}
+
+  openDialog(task: Task): void {
+    this.hideScrollbars();
+    this.selectedTask = task;
+
+    this.formGroup.patchValue({
+      uuid: this.selectedTask.uuid,
+      title: this.selectedTask.title,
+      description: this.selectedTask.description,
+      createdAt: this.datePipe.transform(this.selectedTask.createdAt),
+      plannedMinutes: this.selectedTask.plannedMinutes,
+      actualMinutes: this.selectedTask.actualMinutes,
+    });
+
+    this.dialog.nativeElement.showModal();
+
+    const onClose = () => {
+      this.dialog.nativeElement.removeEventListener('close', onClose);
+      this.selectedTask = undefined;
+      this.showScrollbars();
+    };
+
+    this.dialog.nativeElement.addEventListener('close', onClose);
+  }
+
+  hideScrollbars() {
+    document.body.classList.add('dialog-open');
+  }
+
+  showScrollbars() {
+    document.body.classList.remove('dialog-open');
+  }
+
+  onSubmit() {
+    console.log(this.formGroup.value);
   }
 }

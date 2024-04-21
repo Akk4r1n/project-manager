@@ -30,9 +30,107 @@
   class="overflow-auto grid grid-cols-1 gap-y-16 gap-x-4 pt-12 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
 >
   <app-task-card
-    [routerLink]="'/projects/' + project.uuid"
+    (click)="openDialog(task)"
     class="shadow-lg bg-white rounded-2xl border-gray-300 border hover:scale-[1.01] hover:shadow-2xl hover:cursor-pointer"
     [task]="task"
     *ngFor="let task of tasks"
   ></app-task-card>
 </div>
+
+<dialog #taskModal class="modal">
+  <div class="modal-box max-h-[75%]" *ngIf="selectedTask">
+    <form
+      method="dialog"
+      class="w-full flex flex-col gap-3 max-w-5xl"
+      [formGroup]="formGroup"
+    >
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+        ✕
+      </button>
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Uuid</span>
+        </div>
+        <input
+          readonly
+          formControlName="uuid"
+          class="input input-bordered input-md border-gray-300 w-full resize-none input-disabled min-h-0"
+        />
+      </label>
+
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Title</span>
+        </div>
+        <textarea
+          formControlName="title"
+          placeholder="Provide a title that explains your project concisely"
+          class="textarea textarea-bordered textarea-md w-full min-h-0"
+        ></textarea>
+      </label>
+
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Description</span>
+        </div>
+        <textarea
+          formControlName="description"
+          placeholder="Provide a description and explain your project in full detail"
+          class="textarea textarea-bordered textarea-md w-full"
+        ></textarea>
+      </label>
+
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Uuid</span>
+        </div>
+        <input
+          readonly
+          formControlName="uuid"
+          class="input input-bordered input-md border-gray-300 w-full resize-none input-disabled min-h-0"
+        />
+      </label>
+
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Planned minutes</span>
+        </div>
+        <input
+          type="number"
+          formControlName="plannedMinutes"
+          class="input input-bordered input-md border-gray-300 w-full"
+        />
+      </label>
+
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Actual minutes</span>
+        </div>
+        <input
+          type="number"
+          formControlName="actualMinutes"
+          class="input input-bordered input-md border-gray-300 w-full"
+        />
+      </label>
+
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Creation date</span>
+        </div>
+        <input
+          readonly
+          formControlName="createdAt"
+          class="input input-bordered input-md border-gray-300 w-full resize-none input-disabled"
+        />
+      </label>
+
+      <button
+        (click)="onSubmit()"
+        [disabled]="!formGroup.valid"
+        class="btn btn-primary w-full mt-4"
+      >
+        Save changes
+      </button>
+    </form>
+  </div>
+</dialog>

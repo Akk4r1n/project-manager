@@ -57,13 +57,13 @@ export class ProjectMetaComponent {
       uuid: this.project.uuid,
       title: this.project.title,
       description: this.project.description,
-      createdAt: this.dateTime.transform(this.project.createdAt),
+      createdAt: this.datePipe.transform(this.project.createdAt),
       ownerName: 'Jeremy',
       ownerEmail: 'jeremy@gmail.com',
     });
   }
 
-  constructor(private formBuilder: FormBuilder, private dateTime: DatePipe) {
+  constructor(private formBuilder: FormBuilder, private datePipe: DatePipe) {
     this.formGroup = this.formBuilder.group({
       uuid: ['', [Validators.required]],
       title: ['', [Validators.required]],
@@ -71,7 +71,6 @@ export class ProjectMetaComponent {
       createdAt: ['', [Validators.required]],
       ownerName: ['', [Validators.required]],
       ownerEmail: ['', [Validators.required]],
-      queue: [null],
     });
   }
 

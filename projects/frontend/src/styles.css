@@ -25,3 +25,7 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-slate-500;
 }
+
+body.dialog-open ::-webkit-scrollbar {
+  @apply hidden;
+}
