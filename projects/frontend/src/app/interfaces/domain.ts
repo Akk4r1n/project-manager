@@ -6,3 +6,13 @@ export interface Project {
   ownerEmail: string;
   chatUuid: string;
 }
+
+export interface Task {
+  uuid: string;
+  title: string;
+  description: string;
+  createdAt: Date;
+  projectUuid: string;
+  plannedMinutes?: number;
+  actualMinutes?: number;
+}
