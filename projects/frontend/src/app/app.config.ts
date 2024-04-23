@@ -17,6 +17,7 @@ import { ConfigService } from './services/config.service';
 import { lastValueFrom } from 'rxjs';
 import { cookieInterceptor } from './interceptors/cookie.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,6 +31,6 @@ export const appConfig: ApplicationConfig = {
         lastValueFrom(configService.loadConfig()),
       deps: [ConfigService],
       multi: true,
-    },
+    }, provideAnimationsAsync(),
   ],
 };

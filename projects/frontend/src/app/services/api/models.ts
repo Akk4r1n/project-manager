@@ -23,6 +23,7 @@ export interface ProjectResponse {
   chat_uuid: string;
   messages_count: number;
   tasks_count: number;
+  member_users: UserResponse[];
 }
 
 export interface ProjectCreateRequest {
