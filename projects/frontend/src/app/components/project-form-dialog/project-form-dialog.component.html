@@ -1,0 +1,100 @@
+<dialog #projectModal class="modal">
+  <div class="modal-box max-h-[75%]">
+    <form
+      method="dialog"
+      class="w-full flex flex-col gap-3 max-w-5xl"
+      [formGroup]="formGroup"
+    >
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+        ✕
+      </button>
+
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Uuid</span>
+        </div>
+        <input
+          readonly
+          formControlName="uuid"
+          class="input input-bordered input-md border-gray-300 w-full resize-none input-disabled min-h-0"
+        />
+      </label>
+
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Title</span>
+        </div>
+        <textarea
+          formControlName="title"
+          placeholder="Provide a title that explains your project concisely"
+          class="textarea textarea-bordered textarea-md w-full min-h-0"
+        ></textarea>
+      </label>
+
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Description</span>
+        </div>
+        <textarea
+          formControlName="description"
+          placeholder="Provide a description and explain your project in full detail"
+          class="textarea textarea-bordered textarea-md w-full"
+        ></textarea>
+      </label>
+
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Uuid</span>
+        </div>
+        <input
+          readonly
+          formControlName="uuid"
+          class="input input-bordered input-md border-gray-300 w-full resize-none input-disabled min-h-0"
+        />
+      </label>
+
+      <span class="font-semibold">Owner</span>
+
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Name</span>
+        </div>
+        <textarea
+          readonly
+          formControlName="ownerName"
+          class="textarea textarea-bordered textarea-md w-full resize-none h-24 input-disabled"
+        ></textarea>
+      </label>
+
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Email</span>
+        </div>
+        <textarea
+          readonly
+          formControlName="ownerEmail"
+          class="textarea textarea-bordered textarea-md w-full resize-none h-24 input-disabled"
+        ></textarea>
+      </label>
+
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Creation date</span>
+        </div>
+        <input
+          readonly
+          formControlName="createdAt"
+          class="input input-bordered input-md border-gray-300 w-full resize-none input-disabled"
+        />
+      </label>
+
+      <button
+        (click)="_onSubmit()"
+        [disabled]="!formGroup.valid"
+        class="btn btn-primary w-full mt-4"
+      >
+        Save changes
+      </button>
+    </form>
+  </div>
+</dialog>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, output } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
   heroBeaker,
@@ -40,4 +40,11 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 export class ProjectCardComponent {
   @Input({ required: true })
   project!: Project;
+
+  editClick = output<void>();
+
+  onEditClick($event: Event) {
+    $event.stopPropagation();
+    this.editClick.emit();
+  }
 }

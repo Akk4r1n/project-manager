@@ -61,7 +61,7 @@
 </div>
 
 <ng-icon
-  [routerLink]="'/projects/' + project.uuid + '/meta'"
+  (click)="onEditClick($event)"
   size="24px"
   class="absolute top-3 right-3 text-gray-600 rounded-full"
   name="heroPencilSquare"

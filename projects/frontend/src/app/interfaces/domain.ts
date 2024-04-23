@@ -4,6 +4,7 @@ export interface Project {
   description: string;
   createdAt: Date;
   ownerEmail: string;
+  ownerName: string;
   chatUuid: string;
 }
 

@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, type OnInit } from '@angular/core';
+import { Component, ViewChild, type OnInit } from '@angular/core';
 import { Project } from '../../interfaces/domain';
 import { ProjectCardComponent } from '../../components/project-card/project-card.component';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { ProjectFormDialogComponent } from '../../components/project-form-dialog/project-form-dialog.component';
 
 @Component({
   selector: 'app-projects',
@@ -15,9 +16,10 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
+    ProjectFormDialogComponent,
   ],
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent {
   projects: Project[] = [
     {
       uuid: '1',
@@ -26,6 +28,7 @@ export class ProjectsComponent implements OnInit {
         'Development of a scalable e-commerce platform with advanced search and recommendation features.',
       createdAt: new Date('2023-03-10'),
       ownerEmail: 'project_owner1@example.com',
+      ownerName: 'Jeremy',
       chatUuid: 'chat1',
     },
     {
@@ -35,6 +38,7 @@ export class ProjectsComponent implements OnInit {
         'Enhancement of existing mobile banking application with biometric authentication and budgeting tools.',
       createdAt: new Date('2023-05-22'),
       ownerEmail: 'project_owner2@example.com',
+      ownerName: 'John',
       chatUuid: 'chat2',
     },
     {
@@ -44,6 +48,7 @@ export class ProjectsComponent implements OnInit {
         'Development of a data analytics dashboard for visualizing key performance indicators and trends.',
       createdAt: new Date('2023-07-15'),
       ownerEmail: 'project_owner3@example.com',
+      ownerName: 'Eva',
       chatUuid: 'chat3',
     },
     {
@@ -53,6 +58,7 @@ export class ProjectsComponent implements OnInit {
         'Implementation of a cloud migration strategy for transitioning legacy systems to cloud infrastructure.',
       createdAt: new Date('2023-09-05'),
       ownerEmail: 'project_owner4@example.com',
+      ownerName: 'Jeremy',
       chatUuid: 'chat4',
     },
     {
@@ -62,6 +68,7 @@ export class ProjectsComponent implements OnInit {
         'Integration of a CRM system with existing business applications for improved customer management.',
       createdAt: new Date('2023-10-18'),
       ownerEmail: 'project_owner5@example.com',
+      ownerName: 'Max',
       chatUuid: 'chat5',
     },
     {
@@ -71,6 +78,7 @@ export class ProjectsComponent implements OnInit {
         'Development of an AI-powered chatbot for providing customer support and assistance.',
       createdAt: new Date('2023-11-30'),
       ownerEmail: 'project_owner6@example.com',
+      ownerName: 'Max',
       chatUuid: 'chat6',
     },
     {
@@ -80,6 +88,7 @@ export class ProjectsComponent implements OnInit {
         'Conducting a comprehensive cybersecurity assessment and implementing necessary remediation measures.',
       createdAt: new Date('2024-01-12'),
       ownerEmail: 'project_owner7@example.com',
+      ownerName: 'Tom',
       chatUuid: 'chat7',
     },
     {
@@ -89,6 +98,7 @@ export class ProjectsComponent implements OnInit {
         'Integration of blockchain technology for enhancing transparency and traceability in supply chain management.',
       createdAt: new Date('2024-02-28'),
       ownerEmail: 'project_owner8@example.com',
+      ownerName: 'Tom',
       chatUuid: 'chat8',
     },
     {
@@ -98,6 +108,7 @@ export class ProjectsComponent implements OnInit {
         'Development of a healthcare application for managing patient records and appointments.',
       createdAt: new Date('2024-04-03'),
       ownerEmail: 'project_owner9@example.com',
+      ownerName: 'Jeremy',
       chatUuid: 'chat9',
     },
     {
@@ -107,9 +118,22 @@ export class ProjectsComponent implements OnInit {
         'Implementation of an automated testing framework to streamline software testing processes.',
       createdAt: new Date('2024-05-20'),
       ownerEmail: 'project_owner10@example.com',
+      ownerName: 'Jeremy',
       chatUuid: 'chat10',
     },
   ];
 
-  ngOnInit(): void {}
+  @ViewChild('projectFormDialog')
+  projectFormDialog!: ProjectFormDialogComponent;
+
+  selectedProject?: Project;
+
+  onSubmit(entity: Project) {
+    console.log('Submitting project:', entity);
+  }
+
+  onEditClick(project: Project) {
+    this.selectedProject = project;
+    this.projectFormDialog.openDialog(project);
+  }
 }

@@ -48,8 +48,6 @@ import { TaskFormDialogComponent } from '../../components/task-form-dialog/task-
 export class ProjectDetailComponent {
   public _uuid!: string;
 
-  formGroup: any;
-
   @ViewChild('taskFormDialog') taskFormDialog!: TaskFormDialogComponent;
 
   selectedTask?: Task;
@@ -61,6 +59,7 @@ export class ProjectDetailComponent {
       'Development of a scalable e-commerce platform with advanced search and recommendation features.',
     createdAt: new Date('2023-03-10'),
     ownerEmail: 'project_owner1@example.com',
+    ownerName: 'jeremy',
     chatUuid: 'chat1',
   };
 
@@ -169,27 +168,11 @@ export class ProjectDetailComponent {
 
   @Input()
   set uuid(projectUuid: string) {
-    console.log('setting uuid of project detail...');
     this._uuid = projectUuid;
   }
 
-  constructor(
-    private renderer: Renderer2,
-    private formBuilder: FormBuilder,
-    private datePipe: DatePipe
-  ) {
-    this.formGroup = this.formBuilder.group({
-      uuid: ['', [Validators.required]],
-      title: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      plannedMinutes: ['', []],
-      actualMinutes: ['', []],
-      createdAt: ['', [Validators.required]],
-    });
-  }
-
   onSubmit(entity: Task) {
-    console.log(entity);
+    console.log('Submitting task:', entity);
   }
 
   onEditClick(task: Task) {
