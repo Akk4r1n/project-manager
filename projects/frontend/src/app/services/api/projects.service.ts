@@ -33,9 +33,12 @@ export class ProjectsService {
     );
   }
 
-  update(model: ProjectUpdateRequest): Observable<ProjectResponse> {
+  update(
+    uuid: string,
+    model: ProjectUpdateRequest
+  ): Observable<ProjectResponse> {
     return this.http.put<ProjectResponse>(
-      `${this.configService.getUrl()}/projects/`,
+      `${this.configService.getUrl()}/projects/${uuid}`,
       model
     );
   }

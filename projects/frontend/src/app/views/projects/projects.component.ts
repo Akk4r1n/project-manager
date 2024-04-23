@@ -157,6 +157,16 @@ export class ProjectsComponent implements OnInit {
           // TODO: use response instead of making another request
           this.projects$ = this.projectsService.getAll();
         });
+    } else if (this.submitType === 'update') {
+      this.projectsService
+        .update(entity.uuid, {
+          title: entity.title,
+          description: entity.description,
+        })
+        .subscribe((res) => {
+          // TODO: use response instead of making another request
+          this.projects$ = this.projectsService.getAll();
+        });
     }
   }
 
