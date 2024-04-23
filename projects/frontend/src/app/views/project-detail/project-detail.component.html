@@ -1,5 +1,5 @@
 <div class="flex justify-between items-end p-2 flex-shrink-0 pl-4 pr-4">
-  <div class="flex flex-col gap-4 w-full">
+  <div class="flex flex-col gap-4 w-full" *ngIf="project">
     <span class="text-lg font-bold">{{ project.title }}</span>
     <span class="text-gray-600 text-sm">{{ project.description }}</span>
     <div class="flex items-center gap-y-4 flex-wrap">
@@ -32,13 +32,13 @@
 ></ng-icon>
 
 <div
-  class="overflow-auto grid grid-cols-1 gap-y-16 gap-x-4 pt-12 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+  class="overflow-auto grid grid-cols-1 gap-y-16 gap-x-4 pt-12 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 pb-16"
 >
   <app-task-card
     (editClick)="onEditClick(task)"
     class="shadow-lg bg-white rounded-2xl border-gray-300 border hover:scale-[1.01] hover:shadow-2xl"
     [task]="task"
-    *ngFor="let task of tasks"
+    *ngFor="let task of tasks$ | async"
   ></app-task-card>
 </div>
 
