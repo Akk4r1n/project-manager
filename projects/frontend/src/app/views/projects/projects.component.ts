@@ -190,6 +190,8 @@ export class ProjectsComponent implements OnInit {
         email: currentUser?.userEmail + ' (You)',
         name: currentUser?.userName + ' (You)',
       },
+      messages_count: 0,
+      tasks_count: 0,
     };
     this.projectFormDialog.openDialog(this.selectedProject);
   }

@@ -21,6 +21,8 @@ export interface ProjectResponse {
   created_at: Date;
   owner_user: UserResponse;
   chat_uuid: string;
+  messages_count: number;
+  tasks_count: number;
 }
 
 export interface ProjectCreateRequest {

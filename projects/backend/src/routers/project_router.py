@@ -36,7 +36,13 @@ def get_projects(
     user: Annotated[User, Depends(get_current_user)],
     db: Annotated[ORM_Session, Depends(get_db)],
 ):
-    return project_service.read_all(db)
+    projects = project_service.read_all(db)
+
+    for project in projects:
+        project.messages_count = len(project.chat.messages)
+        project.tasks_count = len(project.tasks)
+
+    return projects
 
 
 @router.get("/{uuid}", tags=["projects"], response_model=api.ProjectResponse)
@@ -50,6 +56,10 @@ def get_project(
         raise HTTPException(
             status_code=404, detail=f"Project with uuid {uuid} not found"
         )
+
+    project.messages_count = len(project.chat.messages)
+    project.tasks_count = len(project.tasks)
+
     return project
 
 

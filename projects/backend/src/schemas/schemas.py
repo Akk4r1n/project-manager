@@ -7,7 +7,7 @@ Extra validation and sanitation is needed. These model should be distinct from i
 """
 
 from pydantic import BaseModel, EmailStr, field_validator
-from typing import Optional, List, Literal
+from typing import Optional, List, Literal, Any
 from datetime import datetime, date, timedelta
 
 
@@ -35,6 +35,9 @@ class ProjectResponse(BaseModel):
     chat_uuid: str
 
     owner_user: UserResponse
+
+    messages_count: int
+    tasks_count: int
 
 
 class CreateProjectRequest(BaseModel):
