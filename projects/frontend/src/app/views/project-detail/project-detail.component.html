@@ -3,12 +3,11 @@
     <span class="text-lg font-bold">{{ project.title }}</span>
     <span class="text-gray-600 text-sm">{{ project.description }}</span>
     <div class="flex items-center gap-y-4 flex-wrap">
-      <div class="w-8">
-        <img class="rounded-full" alt="profile" src="assets/avatar_two.jpg" />
-      </div>
-
-      <div class="w-8">
-        <img class="rounded-full" alt="profile" src="assets/avatar_one.png" />
+      <div
+        class="w-8"
+        *ngFor="let member of project.member_users | slice : 0 : 5"
+      >
+        <img class="rounded-full" alt="profile" src="assets/no-profile.png" />
       </div>
 
       <button class="btn btn-primary btn-sm btn-circle">+</button>
