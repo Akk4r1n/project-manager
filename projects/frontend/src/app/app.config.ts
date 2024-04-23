@@ -10,18 +10,20 @@ import { provideClientHydration } from '@angular/platform-browser';
 import {
   HttpClientModule,
   provideHttpClient,
+  withFetch,
   withInterceptors,
 } from '@angular/common/http';
 import { ConfigService } from './services/config.service';
 import { lastValueFrom } from 'rxjs';
 import { cookieInterceptor } from './interceptors/cookie.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
     provideClientHydration(),
-    importProvidersFrom(HttpClientModule),
-    provideHttpClient(withInterceptors([cookieInterceptor])),
+    importProvidersFrom(HttpClientModule, BrowserAnimationsModule),
+    provideHttpClient(withInterceptors([cookieInterceptor]), withFetch()),
     {
       provide: APP_INITIALIZER,
       useFactory: (configService: ConfigService) => () =>

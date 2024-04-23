@@ -56,3 +56,47 @@
   [entity]="selectedTask"
   (onSubmit)="onSubmit($event)"
 ></app-task-form-dialog>
+
+<!-- <p-calendar [(ngModel)]="date"></p-calendar>
+
+<p-button label="Submit"></p-button> -->
+
+<!-- <p-multiSelect
+  [options]="countries"
+  [(ngModel)]="selectedCountries"
+  placeholder="Select Countries"
+  optionLabel="name"
+>
+  <ng-template let-value pTemplate="selectedItems">
+    <div
+      class="inline-flex align-items-center gap-2 px-1"
+      *ngFor="let option of value"
+    >
+      <img
+        src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+        [class]="'flag flag-' + option.code.toLowerCase()"
+        style="width: 18px"
+        alt="some"
+      />
+      <div>{{ option.name }},</div>
+    </div>
+    <div *ngIf="!value || value.length === 0">Select Countries</div>
+  </ng-template>
+  <ng-template let-country pTemplate="item">
+    <div class="flex align-items-center gap-2">
+      <img
+        src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+        [class]="'flag flag-' + country.code.toLowerCase()"
+        style="width: 18px"
+        alt="testy"
+      />
+      <div>{{ country.name }}</div>
+    </div>
+  </ng-template>
+</p-multiSelect> -->
+
+<p-multiSelect
+  [options]="countries"
+  [(ngModel)]="selectedCountries"
+  optionLabel="name"
+></p-multiSelect>

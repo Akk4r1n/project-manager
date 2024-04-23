@@ -32,6 +32,9 @@ import { ProjectResponse, TaskResponse } from '../../services/api/models';
 import { ProjectsService } from '../../services/api/projects.service';
 import { Observable } from 'rxjs';
 import { TasksService } from '../../services/api/tasks.service';
+import { CalendarModule } from 'primeng/calendar';
+import { ButtonModule } from 'primeng/button';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @Component({
   selector: 'app-project-detail',
@@ -57,9 +60,26 @@ import { TasksService } from '../../services/api/tasks.service';
     FormsModule,
     DatePipe,
     TaskFormDialogComponent,
+    CalendarModule,
+    MultiSelectModule,
   ],
 })
 export class ProjectDetailComponent implements OnInit {
+  public selectedCountries: any[] = [];
+
+  public countries: any[] = [
+    {
+      name: 'Germany',
+      code: 'GER',
+    },
+    {
+      name: 'America',
+      code: 'AME',
+    },
+  ];
+
+  public date!: Date;
+
   public _uuid!: string;
 
   @ViewChild('taskFormDialog') taskFormDialog!: TaskFormDialogComponent;
