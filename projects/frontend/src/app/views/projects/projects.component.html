@@ -13,7 +13,7 @@
     [routerLink]="'/projects/' + project.uuid"
     class="shadow-lg bg-white rounded-2xl border-gray-300 border hover:scale-[1.01] hover:shadow-2xl hover:cursor-pointer"
     [project]="project"
-    *ngFor="let project of projects"
+    *ngFor="let project of projects$ | async"
   ></app-project-card>
 </div>
 

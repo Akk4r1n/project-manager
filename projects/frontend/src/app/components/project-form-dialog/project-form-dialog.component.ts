@@ -15,7 +15,7 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
-import { Project } from '../../interfaces/domain';
+import { ProjectResponse } from '../../services/api/models';
 
 @Component({
   selector: 'app-project-form-dialog',
@@ -30,11 +30,11 @@ export class ProjectFormDialogComponent {
   @ViewChild('projectModal') dialog!: ElementRef<HTMLDialogElement>;
 
   @Input()
-  public entity?: Project = undefined;
+  public entity?: ProjectResponse = undefined;
 
-  public onSubmit = output<Project>();
+  public onSubmit = output<ProjectResponse>();
 
-  openDialog(entity: Project): void {
+  openDialog(entity: ProjectResponse): void {
     this.hideScrollbars();
     this.entity = entity;
 
@@ -42,9 +42,9 @@ export class ProjectFormDialogComponent {
       uuid: this.entity.uuid,
       title: this.entity.title,
       description: this.entity.description,
-      ownerName: this.entity.ownerName,
-      ownerEmail: this.entity.ownerEmail,
-      createdAt: this.datePipe.transform(this.entity.createdAt),
+      ownerName: this.entity.owner_user.name,
+      ownerEmail: this.entity.owner_user.email,
+      createdAt: this.datePipe.transform(this.entity.created_at),
     });
 
     this.dialog.nativeElement.showModal();

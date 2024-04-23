@@ -15,7 +15,7 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
-import { Task } from '../../interfaces/domain';
+import { TaskResponse } from '../../services/api/models';
 
 @Component({
   selector: 'app-task-form-dialog',
@@ -30,11 +30,11 @@ export class TaskFormDialogComponent {
   @ViewChild('taskModal') dialog!: ElementRef<HTMLDialogElement>;
 
   @Input()
-  public entity?: Task = undefined;
+  public entity?: TaskResponse = undefined;
 
-  public onSubmit = output<Task>();
+  public onSubmit = output<TaskResponse>();
 
-  openDialog(entity: Task): void {
+  openDialog(entity: TaskResponse): void {
     this.hideScrollbars();
     this.entity = entity;
 
@@ -42,9 +42,9 @@ export class TaskFormDialogComponent {
       uuid: this.entity.uuid,
       title: this.entity.title,
       description: this.entity.description,
-      createdAt: this.datePipe.transform(this.entity.createdAt),
-      plannedMinutes: this.entity.plannedMinutes,
-      actualMinutes: this.entity.actualMinutes,
+      createdAt: this.datePipe.transform(this.entity.created_at),
+      plannedMinutes: this.entity.planned_minutes,
+      actualMinutes: this.entity.actual_minutes,
     });
 
     this.dialog.nativeElement.showModal();

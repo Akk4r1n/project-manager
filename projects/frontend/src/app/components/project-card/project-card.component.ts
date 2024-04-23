@@ -9,9 +9,9 @@ import {
   heroEllipsisVertical,
   heroPencilSquare,
 } from '@ng-icons/heroicons/outline';
-import { Project } from '../../interfaces/domain';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { ProjectResponse } from '../../services/api/models';
 
 @Component({
   selector: 'app-project-card',
@@ -39,7 +39,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class ProjectCardComponent {
   @Input({ required: true })
-  project!: Project;
+  project!: ProjectResponse;
 
   editClick = output<void>();
 

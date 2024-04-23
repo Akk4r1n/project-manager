@@ -10,7 +10,6 @@ import {
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { heroArrowLeft, heroPencilSquare } from '@ng-icons/heroicons/outline';
-import { Project, Task } from '../../interfaces/domain';
 import { TaskCardComponent } from '../../components/task-card/task-card.component';
 import {
   FormBuilder,
@@ -19,6 +18,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TaskFormDialogComponent } from '../../components/task-form-dialog/task-form-dialog.component';
+import { ProjectResponse, TaskResponse } from '../../services/api/models';
 
 @Component({
   selector: 'app-project-detail',
@@ -50,110 +50,112 @@ export class ProjectDetailComponent {
 
   @ViewChild('taskFormDialog') taskFormDialog!: TaskFormDialogComponent;
 
-  selectedTask?: Task;
+  selectedTask?: TaskResponse;
 
-  public project: Project = {
+  public project: ProjectResponse = {
     uuid: '34ed8ba3-f7b4-4565-a5a9-b5605b0d8df4',
     title: 'E-Commerce Platform Development',
     description:
       'Development of a scalable e-commerce platform with advanced search and recommendation features.',
-    createdAt: new Date('2023-03-10'),
-    ownerEmail: 'project_owner1@example.com',
-    ownerName: 'jeremy',
-    chatUuid: 'chat1',
+    created_at: new Date('2023-03-10'),
+    owner_user: {
+      email: 'jeremy@gmail.com',
+      name: 'Jeremy',
+    },
+    chat_uuid: 'chat1',
   };
 
-  public tasks: Task[] = [
+  public tasks: TaskResponse[] = [
     {
       uuid: '1',
       title: 'UI Design Wireframes',
       description:
         'Create wireframes for the user interface design of the e-commerce platform.',
-      createdAt: new Date('2023-03-12'),
-      projectUuid: '1',
-      actualMinutes: 220,
+      created_at: new Date('2023-03-12'),
+      project_uuid: '1',
+      actual_minutes: 220,
     },
     {
       uuid: '2',
       title: 'Database Schema Design',
       description:
         'Design the database schema for storing product, user, and order information.',
-      createdAt: new Date('2023-03-15'),
-      projectUuid: '1',
-      plannedMinutes: 360,
-      actualMinutes: 380,
+      created_at: new Date('2023-03-15'),
+      project_uuid: '1',
+      planned_minutes: 360,
+      actual_minutes: 380,
     },
     {
       uuid: '3',
       title: 'Frontend Development: Homepage',
       description:
         'Develop the homepage of the e-commerce platform using HTML, CSS, and JavaScript.',
-      createdAt: new Date('2023-03-20'),
-      projectUuid: '1',
-      actualMinutes: 680,
+      created_at: new Date('2023-03-20'),
+      project_uuid: '1',
+      actual_minutes: 680,
     },
     {
       uuid: '4',
       title: 'Backend Development: User Authentication',
       description:
         'Implement user authentication functionality on the backend using Node.js and Express.',
-      createdAt: new Date('2023-03-25'),
-      projectUuid: '1',
-      plannedMinutes: 480,
-      actualMinutes: 500,
+      created_at: new Date('2023-03-25'),
+      project_uuid: '1',
+      planned_minutes: 480,
+      actual_minutes: 500,
     },
     {
       uuid: '5',
       title: 'Product Catalog Management System',
       description:
         'Develop the product catalog management system to add, edit, and delete products.',
-      createdAt: new Date('2023-04-02'),
-      projectUuid: '1',
-      plannedMinutes: 600,
-      actualMinutes: 620,
+      created_at: new Date('2023-04-02'),
+      project_uuid: '1',
+      planned_minutes: 600,
+      actual_minutes: 620,
     },
     {
       uuid: '6',
       title: 'Search and Filter Functionality',
       description:
         'Implement search and filter functionality to allow users to find products easily.',
-      createdAt: new Date('2023-04-10'),
-      projectUuid: '1',
-      plannedMinutes: 480,
+      created_at: new Date('2023-04-10'),
+      project_uuid: '1',
+      planned_minutes: 480,
     },
     {
       uuid: '7',
       title: 'Shopping Cart Feature',
       description:
         'Develop the shopping cart feature to allow users to add and manage items in their cart.',
-      createdAt: new Date('2023-04-15'),
-      projectUuid: '1',
+      created_at: new Date('2023-04-15'),
+      project_uuid: '1',
     },
     {
       uuid: '8',
       title: 'Payment Gateway Integration',
       description:
         'Integrate payment gateway for secure and convenient online transactions.',
-      createdAt: new Date('2023-04-20'),
-      projectUuid: '1',
-      plannedMinutes: 600,
+      created_at: new Date('2023-04-20'),
+      project_uuid: '1',
+      planned_minutes: 600,
     },
     {
       uuid: '9',
       title: 'User Testing and Feedback',
       description:
         'Conduct user testing sessions and gather feedback for further improvements.',
-      createdAt: new Date('2023-04-25'),
-      projectUuid: '1',
+      created_at: new Date('2023-04-25'),
+      project_uuid: '1',
     },
     {
       uuid: '10',
       title: 'Final Deployment and Launch',
       description:
         'Deploy the e-commerce platform to production servers and launch it for public access.',
-      createdAt: new Date('2023-04-30'),
-      projectUuid: '1',
-      plannedMinutes: 240,
+      created_at: new Date('2023-04-30'),
+      project_uuid: '1',
+      planned_minutes: 240,
     },
   ];
 
@@ -161,21 +163,21 @@ export class ProjectDetailComponent {
     uuid: ['', [Validators.required]],
     title: ['', [Validators.required]],
     description: ['', [Validators.required]],
-    plannedMinutes: ['', []],
-    actualMinutes: ['', []],
-    createdAt: ['', [Validators.required]],
+    planned_minutes: ['', []],
+    actual_minutes: ['', []],
+    created_at: ['', [Validators.required]],
   };
 
   @Input()
-  set uuid(projectUuid: string) {
-    this._uuid = projectUuid;
+  set uuid(project_uuid: string) {
+    this._uuid = project_uuid;
   }
 
-  onSubmit(entity: Task) {
+  onSubmit(entity: TaskResponse) {
     console.log('Submitting task:', entity);
   }
 
-  onEditClick(task: Task) {
+  onEditClick(task: TaskResponse) {
     this.selectedTask = task;
     this.taskFormDialog.openDialog(task);
   }

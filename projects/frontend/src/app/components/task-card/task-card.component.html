@@ -12,18 +12,20 @@
 
 <div class="w-full pl-4 pr-4 flex flex-col">
   <span>
-    Minutes planned: <span class="font-bold">{{ task.plannedMinutes }}</span>
+    Minutes planned: <span class="font-bold">{{ task.planned_minutes }}</span>
   </span>
   <span>
     Actual minutes needed:
-    <span class="font-bold">{{ task.actualMinutes }} </span></span
+    <span class="font-bold">{{ task.actual_minutes }} </span></span
   >
 </div>
 
 <div class="flex gap-2 w-full pl-4 justify-end">
   <div class="flex items-center bg-gray-200 rounded-xl p-1 gap-2 pl-2 pr-2">
     <ng-icon class="text-gray-600" size="24px" name="heroClock"></ng-icon>
-    <span class="text-gray-600">{{ task.createdAt | date : "shortDate" }}</span>
+    <span class="text-gray-600">{{
+      task.created_at | date : "shortDate"
+    }}</span>
   </div>
 </div>
 

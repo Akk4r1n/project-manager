@@ -9,10 +9,10 @@ import {
   heroEllipsisVertical,
   heroPencilSquare,
 } from '@ng-icons/heroicons/outline';
-import { Project, Task } from '../../interfaces/domain';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { EventEmitter } from 'stream';
+import { TaskResponse } from '../../services/api/models';
 
 @Component({
   selector: 'app-task-card',
@@ -40,7 +40,7 @@ import { EventEmitter } from 'stream';
 })
 export class TaskCardComponent {
   @Input({ required: true })
-  task!: Task;
+  task!: TaskResponse;
 
   editClick = output<void>();
 
