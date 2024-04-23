@@ -59,14 +59,14 @@ export interface TaskResponse {
 export interface TaskCreateRequest {
   title: string;
   description: string;
-  planned_minutes: number;
+  planned_minutes?: number;
 }
 
 export interface TaskUpdateRequest {
   title: string;
   description: string;
-  planned_minutes: number;
-  actual_minutes: number;
+  planned_minutes?: number;
+  actual_minutes?: number;
 }
 
 export interface ChatResponse {

@@ -42,6 +42,7 @@ export class TaskFormDialogComponent {
       uuid: this.entity.uuid,
       title: this.entity.title,
       description: this.entity.description,
+      projectUuid: this.entity.project_uuid,
       createdAt: this.datePipe.transform(this.entity.created_at),
       plannedMinutes: this.entity.planned_minutes,
       actualMinutes: this.entity.actual_minutes,
@@ -67,7 +68,11 @@ export class TaskFormDialogComponent {
   }
 
   _onSubmit() {
-    this.onSubmit.emit(this.formGroup.value);
+    this.onSubmit.emit({
+      ...this.formGroup.value,
+      actual_minutes: this.formGroup.value.actualMinutes,
+      planned_minutes: this.formGroup.value.plannedMinutes,
+    });
   }
 
   constructor(private formBuilder: FormBuilder, private datePipe: DatePipe) {
@@ -75,6 +80,7 @@ export class TaskFormDialogComponent {
       uuid: ['', [Validators.required]],
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
+      projectUuid: ['', [Validators.required]],
       plannedMinutes: ['', []],
       actualMinutes: ['', []],
       createdAt: ['', [Validators.required]],

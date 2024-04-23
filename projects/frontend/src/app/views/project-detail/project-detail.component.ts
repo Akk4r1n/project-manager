@@ -69,6 +69,7 @@ export class ProjectDetailComponent implements OnInit {
     uuid: ['', [Validators.required]],
     title: ['', [Validators.required]],
     description: ['', [Validators.required]],
+    projectUuid: ['', Validators.required],
     planned_minutes: ['', []],
     actual_minutes: ['', []],
     created_at: ['', [Validators.required]],
@@ -78,6 +79,8 @@ export class ProjectDetailComponent implements OnInit {
   set uuid(project_uuid: string) {
     this._uuid = project_uuid;
   }
+
+  submitType: 'create' | 'update' = 'create';
 
   constructor(
     private route: ActivatedRoute,
@@ -99,10 +102,62 @@ export class ProjectDetailComponent implements OnInit {
 
   onSubmit(entity: TaskResponse) {
     console.log('Submitting task:', entity);
+
+    // TODO: fix typing
+    if (this.project === null) return;
+
+    if (this.submitType === 'create') {
+      this.tasksService
+        .create(this.project.uuid, {
+          title: entity.title,
+          description: entity.description,
+          planned_minutes: entity.planned_minutes,
+        })
+        .subscribe((res) => {
+          if (this.project === null) return;
+
+          // TODO: use response instead of making another request
+          this.tasks$ = this.tasksService.getAll(this.project.uuid);
+        });
+    } else if (this.submitType === 'update') {
+      this.tasksService
+        .update(this.project.uuid, entity.uuid, {
+          title: entity.title,
+          description: entity.description,
+          actual_minutes: entity.actual_minutes,
+          planned_minutes: entity.planned_minutes,
+        })
+        .subscribe((res) => {
+          if (this.project === null) return;
+
+          // TODO: use response instead of making another request
+          this.tasks$ = this.tasksService.getAll(this.project.uuid);
+        });
+    }
   }
 
   onEditClick(task: TaskResponse) {
+    this.submitType = 'update';
     this.selectedTask = task;
     this.taskFormDialog.openDialog(task);
+  }
+
+  onCreateClick() {
+    this.submitType = 'create';
+
+    // TODO: use auth guards and other validations to ensure that the project is always set
+    if (this.project === null) {
+      return;
+    }
+
+    this.selectedTask = {
+      uuid: '<Will be set on the backend>',
+      created_at: new Date(Date.now()),
+      description: '',
+      title: '',
+      project_uuid: this.project?.uuid,
+    };
+
+    this.taskFormDialog.openDialog(this.selectedTask);
   }
 }

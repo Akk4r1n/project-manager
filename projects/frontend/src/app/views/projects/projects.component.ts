@@ -6,6 +6,7 @@ import { ProjectFormDialogComponent } from '../../components/project-form-dialog
 import { Observable } from 'rxjs';
 import { ProjectsService } from '../../services/api/projects.service';
 import { ProjectResponse } from '../../services/api/models';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-projects',
@@ -132,7 +133,12 @@ export class ProjectsComponent implements OnInit {
 
   selectedProject?: ProjectResponse;
 
-  constructor(private projectsService: ProjectsService) {}
+  submitType: 'create' | 'update' = 'create';
+
+  constructor(
+    private projectsService: ProjectsService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.projects$ = this.projectsService.getAll();
@@ -140,10 +146,41 @@ export class ProjectsComponent implements OnInit {
 
   onSubmit(entity: ProjectResponse) {
     console.log('Submitting project:', entity);
+
+    if (this.submitType === 'create') {
+      this.projectsService
+        .create({
+          title: entity.title,
+          description: entity.description,
+        })
+        .subscribe((res) => {
+          // TODO: use response instead of making another request
+          this.projects$ = this.projectsService.getAll();
+        });
+    }
   }
 
   onEditClick(project: ProjectResponse) {
+    this.submitType = 'update';
     this.selectedProject = project;
     this.projectFormDialog.openDialog(project);
+  }
+
+  onCreateClick() {
+    this.submitType = 'create';
+    const currentUser = this.userService.getUserSession();
+
+    this.selectedProject = {
+      uuid: '<Will be set on the backend>',
+      chat_uuid: '<Will be set on the backend>',
+      created_at: new Date(Date.now()),
+      description: '',
+      title: '',
+      owner_user: {
+        email: currentUser?.userEmail + ' (You)',
+        name: currentUser?.userName + ' (You)',
+      },
+    };
+    this.projectFormDialog.openDialog(this.selectedProject);
   }
 }
