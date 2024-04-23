@@ -32,8 +32,9 @@ class ProjectResponse(BaseModel):
     title: str
     description: str
     created_at: datetime
-    owner_email: str
     chat_uuid: str
+
+    owner_user: UserResponse
 
 
 class CreateProjectRequest(BaseModel):
