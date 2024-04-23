@@ -102,7 +102,7 @@ class Message(Base):
     uuid = mapped_column(String(255), primary_key=True, index=True)
     author_email = mapped_column(String(255), ForeignKey("users.email"), nullable=False)
     chat_uuid = mapped_column(String(255), ForeignKey("chats.uuid"), nullable=False)
-    content = mapped_column(String(1000), nullable=False)
+    content = mapped_column(String(5000), nullable=False)
     created_at = mapped_column(DateTime, nullable=False)
 
     chat: Mapped["Chat"] = relationship(
