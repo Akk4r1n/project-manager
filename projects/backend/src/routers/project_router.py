@@ -42,7 +42,7 @@ def get_projects(
         project.messages_count = len(project.chat.messages)
         project.tasks_count = len(project.tasks)
 
-    return projects
+    return sorted(projects, key=lambda obj: obj.created_at)
 
 
 @router.get("/{uuid}", tags=["projects"], response_model=api.ProjectResponse)
@@ -177,7 +177,7 @@ def get_tasks(
     user: Annotated[User, Depends(get_current_user)],
     db: Annotated[ORM_Session, Depends(get_db)],
 ):
-    return task_service.read_all(uuid, db)
+    return sorted(task_service.read_all(uuid, db), key=lambda obj: obj.created_at)
 
 
 @router.get(
@@ -308,7 +308,7 @@ def get_messages(
             status_code=404, detail=f"Project with uuid {uuid} not found"
         )
 
-    return message_service.read_all(uuid, db)
+    return sorted(message_service.read_all(uuid, db), key=lambda obj: obj.created_at)
 
 
 @router.post(
