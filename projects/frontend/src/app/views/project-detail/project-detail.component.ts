@@ -15,7 +15,11 @@ import {
   ActivatedRoute,
 } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { heroArrowLeft, heroPencilSquare } from '@ng-icons/heroicons/outline';
+import {
+  heroArrowLeft,
+  heroChatBubbleBottomCenterText,
+  heroPencilSquare,
+} from '@ng-icons/heroicons/outline';
 import { TaskCardComponent } from '../../components/task-card/task-card.component';
 import {
   FormBuilder,
@@ -38,6 +42,7 @@ import { TasksService } from '../../services/api/tasks.service';
     provideIcons({
       heroArrowLeft,
       heroPencilSquare,
+      heroChatBubbleBottomCenterText,
     }),
   ],
   providers: [DatePipe],

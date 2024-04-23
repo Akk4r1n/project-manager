@@ -77,10 +77,10 @@ export interface ChatResponse {
 
 export interface MessageResponse {
   uuid: string;
-  author_email: string;
   chat_uuid: string;
   content: string;
   created_at: Date;
+  author_user: UserResponse;
 }
 
 export interface MessageCreateRequest {

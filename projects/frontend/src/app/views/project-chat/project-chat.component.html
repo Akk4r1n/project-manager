@@ -1,0 +1,35 @@
+<div class="w-full h-full flex flex-col">
+  <div
+    #chat
+    class="flex-grow p-2 flex flex-col gap-2 overflow-auto scroll-smooth"
+  >
+    <app-chat-bubble
+      [message]="message"
+      *ngFor="let message of messages$ | async"
+      class="shadow-md rounded-xl"
+    ></app-chat-bubble>
+  </div>
+  <div class="flex-shrink-0 shadow-lg p-6 rounded-lg flex items-end gap-2">
+    <textarea
+      #messageTextArea
+      id="messageTextArea"
+      [(ngModel)]="textContent"
+      (keydown.enter)="$event.preventDefault(); onSendClicked()"
+      placeholder="Write a message for this project"
+      class="textarea textarea-bordered textarea-md w-full resize-none h-14 max-h-40"
+      oninput="this.style.height = '';this.style.height = this.scrollHeight + 3 + 'px'"
+      (input)="onInput()"
+    ></textarea>
+    <button
+      [disabled]="getButtonDisabled()"
+      (click)="onSendClicked()"
+      class="btn btn-circle btn-primary"
+    >
+      <ng-icon
+        size="24px"
+        class="rounded-full"
+        name="heroPaperAirplane"
+      ></ng-icon>
+    </button>
+  </div>
+</div>
