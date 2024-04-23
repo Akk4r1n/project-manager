@@ -69,7 +69,12 @@ def create_project(
     user: Annotated[User, Depends(get_current_user)],
     db: Annotated[ORM_Session, Depends(get_db)],
 ):
-    return project_service.create(model.title, model.description, user, db)
+    project = project_service.create(model.title, model.description, user, db)
+
+    project.messages_count = len(project.chat.messages)
+    project.tasks_count = len(project.tasks)
+
+    return project
 
 
 @router.put("/{uuid}", tags=["projects"], response_model=api.ProjectResponse)
@@ -79,7 +84,12 @@ def update_project(
     user: Annotated[User, Depends(get_current_user)],
     db: Annotated[ORM_Session, Depends(get_db)],
 ):
-    return project_service.update(uuid, model.title, model.description, db)
+    project = project_service.update(uuid, model.title, model.description, db)
+
+    project.messages_count = len(project.chat.messages)
+    project.tasks_count = len(project.tasks)
+
+    return project
 
 
 @router.delete("/{uuid}", tags=["projects"])
