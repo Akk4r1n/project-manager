@@ -192,7 +192,6 @@ export class ProjectsComponent implements OnInit {
       },
       messages_count: 0,
       tasks_count: 0,
-      member_users: [],
     };
     this.projectFormDialog.openDialog(this.selectedProject);
   }
