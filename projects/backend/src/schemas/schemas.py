@@ -96,7 +96,8 @@ class CreateMessageRequest(BaseModel):
 
 class MessageResponse(BaseModel):
     uuid: str
-    author_email: str
     chat_uuid: str
     content: str
     created_at: datetime
+
+    author_user: UserResponse
