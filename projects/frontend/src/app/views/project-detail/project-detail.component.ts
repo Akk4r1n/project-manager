@@ -18,6 +18,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { TaskFormDialogComponent } from '../../components/task-form-dialog/task-form-dialog.component';
 
 @Component({
   selector: 'app-project-detail',
@@ -41,14 +42,17 @@ import {
     ReactiveFormsModule,
     FormsModule,
     DatePipe,
+    TaskFormDialogComponent,
   ],
 })
-export class ProjectDetailComponent implements AfterViewInit {
-  @ViewChild('taskModal') dialog!: ElementRef<HTMLDialogElement>;
-
+export class ProjectDetailComponent {
   public _uuid!: string;
 
   formGroup: any;
+
+  @ViewChild('taskFormDialog') taskFormDialog!: TaskFormDialogComponent;
+
+  selectedTask?: Task;
 
   public project: Project = {
     uuid: '34ed8ba3-f7b4-4565-a5a9-b5605b0d8df4',
@@ -154,7 +158,14 @@ export class ProjectDetailComponent implements AfterViewInit {
     },
   ];
 
-  selectedTask?: Task;
+  public taskControls = {
+    uuid: ['', [Validators.required]],
+    title: ['', [Validators.required]],
+    description: ['', [Validators.required]],
+    plannedMinutes: ['', []],
+    actualMinutes: ['', []],
+    createdAt: ['', [Validators.required]],
+  };
 
   @Input()
   set uuid(projectUuid: string) {
@@ -177,41 +188,12 @@ export class ProjectDetailComponent implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {}
+  onSubmit(entity: Task) {
+    console.log(entity);
+  }
 
-  openDialog(task: Task): void {
-    this.hideScrollbars();
+  onEditClick(task: Task) {
     this.selectedTask = task;
-
-    this.formGroup.patchValue({
-      uuid: this.selectedTask.uuid,
-      title: this.selectedTask.title,
-      description: this.selectedTask.description,
-      createdAt: this.datePipe.transform(this.selectedTask.createdAt),
-      plannedMinutes: this.selectedTask.plannedMinutes,
-      actualMinutes: this.selectedTask.actualMinutes,
-    });
-
-    this.dialog.nativeElement.showModal();
-
-    const onClose = () => {
-      this.dialog.nativeElement.removeEventListener('close', onClose);
-      this.selectedTask = undefined;
-      this.showScrollbars();
-    };
-
-    this.dialog.nativeElement.addEventListener('close', onClose);
-  }
-
-  hideScrollbars() {
-    document.body.classList.add('dialog-open');
-  }
-
-  showScrollbars() {
-    document.body.classList.remove('dialog-open');
-  }
-
-  onSubmit() {
-    console.log(this.formGroup.value);
+    this.taskFormDialog.openDialog(task);
   }
 }
