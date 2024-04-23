@@ -32,9 +32,6 @@ import { ProjectResponse, TaskResponse } from '../../services/api/models';
 import { ProjectsService } from '../../services/api/projects.service';
 import { Observable } from 'rxjs';
 import { TasksService } from '../../services/api/tasks.service';
-import { CalendarModule } from 'primeng/calendar';
-import { ButtonModule } from 'primeng/button';
-import { MultiSelectModule } from 'primeng/multiselect';
 
 @Component({
   selector: 'app-project-detail',
@@ -60,8 +57,6 @@ import { MultiSelectModule } from 'primeng/multiselect';
     FormsModule,
     DatePipe,
     TaskFormDialogComponent,
-    CalendarModule,
-    MultiSelectModule,
   ],
 })
 export class ProjectDetailComponent implements OnInit {
