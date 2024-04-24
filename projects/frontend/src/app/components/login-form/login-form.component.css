@@ -1,0 +1,11 @@
+:host {
+  @apply flex flex-grow h-full justify-center items-center;
+}
+
+label {
+  @apply max-w-none;
+}
+
+input {
+  @apply max-w-none;
+}

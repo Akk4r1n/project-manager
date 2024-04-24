@@ -13,6 +13,7 @@ import { Observable, tap } from 'rxjs';
 import { MessageResponse } from '../../services/api/models';
 import { MessagesService } from '../../services/api/messages.service';
 import { ChatBubbleComponent } from '../../components/chat-bubble/chat-bubble.component';
+import { ToolbarComponent } from '../../components/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-project-chat',
@@ -34,6 +35,7 @@ import { ChatBubbleComponent } from '../../components/chat-bubble/chat-bubble.co
     RouterLink,
     RouterLinkActive,
     ChatBubbleComponent,
+    ToolbarComponent,
   ],
 })
 export class ProjectChatComponent implements OnInit {

@@ -1,4 +1,8 @@
-<div class="flex justify-between items-end p-2 flex-shrink-0 pl-4 pr-4">
+<app-toolbar class="flex-shrink-0"></app-toolbar>
+
+<div
+  class="relative flex justify-between items-end p-2 flex-shrink-0 pl-4 pr-4 pt-10"
+>
   <div class="flex flex-col gap-4 w-full" *ngIf="project">
     <span class="text-lg font-bold">{{ project.title }}</span>
     <span class="text-gray-600 text-sm">{{ project.description }}</span>
@@ -27,23 +31,23 @@
       </button>
     </div>
   </div>
+
+  <ng-icon
+    [routerLink]="'../..'"
+    size="24px"
+    class="absolute top-4 left-4 text-gray-600 rounded-full hover:cursor-pointer"
+    name="heroArrowLeft"
+  ></ng-icon>
+
+  <ng-icon
+    [routerLink]="'../chat'"
+    size="24px"
+    class="absolute top-4 right-4 text-gray-600 rounded-full hover:cursor-pointer"
+    name="heroChatBubbleBottomCenterText,"
+  ></ng-icon>
 </div>
 
 <div class="w-full h-[1px] bg-gray-300"></div>
-
-<ng-icon
-  [routerLink]="'../..'"
-  size="24px"
-  class="absolute top-4 left-4 text-gray-600 rounded-full hover:cursor-pointer"
-  name="heroArrowLeft"
-></ng-icon>
-
-<ng-icon
-  [routerLink]="'../chat'"
-  size="24px"
-  class="absolute top-4 right-4 text-gray-600 rounded-full hover:cursor-pointer"
-  name="heroChatBubbleBottomCenterText,"
-></ng-icon>
 
 <div
   class="overflow-auto grid grid-cols-1 gap-y-16 gap-x-4 pt-12 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 pb-16"
@@ -64,7 +68,21 @@
 
 <app-project-member-form-dialog
   #projectMemberFormDialog
-  [entity]="project ?? undefined"
+  [entity]="project"
   (onSubmit)="onProjectMemberSubmit($event)"
   [allUsers]="(allUsers$ | async) ?? []"
 ></app-project-member-form-dialog>
+
+<ng-icon
+  [routerLink]="'../..'"
+  size="24px"
+  class="absolute top-4 left-4 text-gray-600 rounded-full hover:cursor-pointer"
+  name="heroArrowLeft"
+></ng-icon>
+
+<ng-icon
+  [routerLink]="'../chat'"
+  size="24px"
+  class="absolute top-4 right-4 text-gray-600 rounded-full hover:cursor-pointer"
+  name="heroChatBubbleBottomCenterText,"
+></ng-icon>

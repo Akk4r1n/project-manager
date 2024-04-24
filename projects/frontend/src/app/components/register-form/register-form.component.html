@@ -1,0 +1,142 @@
+<div class="flex items-center justify-center gap-8 flex-grow">
+  <div class="flex-1 flex flex-col p-8 items-start gap-4 max-w-lg">
+    <span class="text-3xl tracking-wider font-extrabold">Welcome there!</span>
+    <span class="font-thin mt-1 text-gray-500">Start the Adventure</span>
+
+    <form
+      class="w-full flex flex-col gap-3"
+      [formGroup]="formGroup"
+      (ngSubmit)="onRegisterClicked()"
+    >
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <span class="label-text">Email</span>
+        </div>
+        <div class="input input-bordered pr-0 flex items-center pl-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+            />
+          </svg>
+
+          <input
+            autocomplete="email"
+            type="text"
+            placeholder="Enter your Email"
+            class="input internalInput w-full max-w-xs border-none"
+            formControlName="email"
+          />
+        </div>
+      </label>
+
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <span class="label-text">Name</span>
+        </div>
+        <div class="input input-bordered pr-0 flex items-center pl-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+            />
+          </svg>
+
+          <input
+            type="text"
+            placeholder="Enter your Name"
+            class="input internalInput w-full max-w-xs border-none"
+            formControlName="name"
+          />
+        </div>
+      </label>
+
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <span class="label-text">Password</span>
+        </div>
+        <div class="input input-bordered pr-0 flex items-center pl-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"
+            />
+          </svg>
+
+          <input
+            autocomplete="new-password"
+            type="password"
+            placeholder="Enter your Password"
+            class="input internalInput w-full max-w-xs border-none"
+            formControlName="password"
+          />
+        </div>
+      </label>
+
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <span class="label-text">Confirm Password</span>
+        </div>
+        <div class="input input-bordered pr-0 flex items-center pl-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"
+            />
+          </svg>
+
+          <input
+            autocomplete="new-password"
+            type="password"
+            placeholder="Confirm your Password"
+            class="input internalInput w-full max-w-xs border-none"
+            formControlName="confirmPassword"
+          />
+        </div>
+      </label>
+
+      <button [disabled]="!formGroup.valid" class="btn btn-primary w-full mt-4">
+        Register
+      </button>
+    </form>
+
+    <div class="flex gap-2 p-2">
+      <span class="font-thin text-gray-500">Already have an account?</span>
+      <a class="text-blue-600 font-semibold" routerLink="/auth/login"
+        >Sign in</a
+      >
+    </div>
+  </div>
+</div>

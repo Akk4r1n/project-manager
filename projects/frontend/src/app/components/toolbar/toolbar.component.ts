@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { heroChevronDown, heroWrench } from '@ng-icons/heroicons/outline';
 import { UsersService } from '../../services/api/users.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar',
@@ -16,7 +17,7 @@ import { UsersService } from '../../services/api/users.service';
 export class ToolbarComponent {
   menuState: 'open' | 'close' = 'close';
 
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService, private router: Router) {}
 
   onAvatarClick() {
     if (this.menuState === 'open') this.menuState = 'close';
@@ -24,14 +25,19 @@ export class ToolbarComponent {
   }
 
   onProfileClick() {
+    this.menuState = 'close';
     alert('Profile not implemented yet');
   }
 
   onSettingsClick() {
+    this.menuState = 'close';
     alert('Settings not implemented yet');
   }
 
   onLogoutClick() {
-    this.usersService.logout().subscribe((_) => {});
+    this.menuState = 'close';
+    this.usersService.logout().subscribe((_) => {
+      this.router.navigateByUrl('/');
+    });
   }
 }

@@ -1,4 +1,6 @@
-<div class="w-full h-full flex flex-col">
+<app-toolbar class="flex-shrink-0"></app-toolbar>
+
+<div class="w-full h-full flex flex-col relative">
   <div
     #chat
     class="flex-grow p-2 flex flex-col gap-2 overflow-auto scroll-smooth"
@@ -32,15 +34,15 @@
       ></ng-icon>
     </button>
   </div>
-</div>
 
-<button
-  class="absolute top-6 left-[50%] -translate-x-[50%] rounded-full p-4 bg-default grid place-items-center glass"
-  routerLink=".."
->
-  <ng-icon
-    size="24px"
-    class="text-gray-600 rounded-full hover:cursor-pointer"
-    name="heroArrowLeft"
-  ></ng-icon>
-</button>
+  <button
+    class="absolute top-6 left-[50%] -translate-x-[50%] rounded-full p-4 bg-default grid place-items-center glass"
+    routerLink=".."
+  >
+    <ng-icon
+      size="24px"
+      class="text-gray-600 rounded-full hover:cursor-pointer"
+      name="heroArrowLeft"
+    ></ng-icon>
+  </button>
+</div>

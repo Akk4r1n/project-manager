@@ -39,6 +39,7 @@ import { TasksService } from '../../services/api/tasks.service';
 import { ProjectMemberFormDialogComponent } from '../../components/project-member-form-dialog/project-member-form-dialog.component';
 import { UsersService } from '../../services/api/users.service';
 import { MembersService } from '../../services/api/members.service';
+import { ToolbarComponent } from '../../components/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-project-detail',
@@ -65,6 +66,7 @@ import { MembersService } from '../../services/api/members.service';
     DatePipe,
     TaskFormDialogComponent,
     ProjectMemberFormDialogComponent,
+    ToolbarComponent,
   ],
 })
 export class ProjectDetailComponent implements OnInit {

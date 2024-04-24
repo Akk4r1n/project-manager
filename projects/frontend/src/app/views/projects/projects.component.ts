@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { ProjectsService } from '../../services/api/projects.service';
 import { ProjectResponse } from '../../services/api/models';
 import { UserService } from '../../services/user.service';
+import { ToolbarComponent } from '../../components/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-projects',
@@ -20,6 +21,7 @@ import { UserService } from '../../services/user.service';
     RouterLink,
     RouterLinkActive,
     ProjectFormDialogComponent,
+    ToolbarComponent,
   ],
 })
 export class ProjectsComponent implements OnInit {
