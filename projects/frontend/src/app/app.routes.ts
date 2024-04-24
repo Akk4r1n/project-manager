@@ -20,8 +20,4 @@ export const routes: Routes = [
     path: 'projects/:uuid/chat',
     component: ProjectChatComponent,
   },
-  {
-    path: 'multi-select',
-    component: MultiSelectComponent,
-  },
 ];
