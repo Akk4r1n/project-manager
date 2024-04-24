@@ -1,45 +1,52 @@
-<img src="assets/icon.svg" alt="icon" height="48px" width="48px" />
+<img
+  class="hover:cursor-pointer"
+  src="assets/icon.svg"
+  routerLink="/projects"
+  alt="icon"
+  height="40px"
+  width="40px"
+/>
 
-<div class="">
-  <button
-    (click)="onAvatarClick()"
-    class="btn btn-ghost btn-circle avatar border border-solid border-gray-300"
-  >
-    <div class="w-10 rounded-full">
-      <img
-        alt="profile"
-        referrerpolicy="no-referrer"
-        src="assets/no-profile.png"
-      />
-    </div>
-  </button>
-  <div
-    class="absolute shadow rounded-box top-16 right-0 w-48 flex flex-col gap-2 bg-white p-2"
-    *ngIf="menuState === 'open'"
-  >
-    <button
-      (click)="onProfileClick()"
-      class="btn btn-sm h-10 flex justify-between items-center"
-    >
-      Profile
-      <span class="badge badge-error">
-        <ng-icon size="16px" class="text-white" name="heroWrench"></ng-icon>
-      </span>
-    </button>
-    <button
-      (click)="onSettingsClick()"
-      class="btn btn-sm h-10 flex justify-between items-center"
-    >
-      Settings
-      <span class="badge badge-error">
-        <ng-icon size="16px" class="text-white" name="heroWrench"></ng-icon>
-      </span>
-    </button>
-    <button
-      (click)="onLogoutClick()"
-      class="btn btn-sm h-10 flex justify-between items-center"
-    >
-      Logout
-    </button>
+<span class="text-2xl font-extrabold">Tasky</span>
+
+<button
+  (click)="onAvatarClick()"
+  class="btn btn-ghost btn-circle avatar border border-solid border-gray-300"
+>
+  <div class="w-10 rounded-full">
+    <img
+      alt="profile"
+      referrerpolicy="no-referrer"
+      src="assets/no-profile.png"
+    />
   </div>
+</button>
+<div
+  class="absolute shadow rounded-box top-16 right-0 w-48 flex flex-col gap-2 bg-white p-2"
+  *ngIf="menuState === 'open'"
+>
+  <button
+    (click)="onProfileClick()"
+    class="btn btn-sm h-10 flex justify-between items-center"
+  >
+    Profile
+    <span class="badge badge-error">
+      <ng-icon size="16px" class="text-white" name="heroWrench"></ng-icon>
+    </span>
+  </button>
+  <button
+    (click)="onSettingsClick()"
+    class="btn btn-sm h-10 flex justify-between items-center"
+  >
+    Settings
+    <span class="badge badge-error">
+      <ng-icon size="16px" class="text-white" name="heroWrench"></ng-icon>
+    </span>
+  </button>
+  <button
+    (click)="onLogoutClick()"
+    class="btn btn-sm h-10 flex justify-between items-center"
+  >
+    Logout
+  </button>
 </div>

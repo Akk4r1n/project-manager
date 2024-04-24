@@ -3,12 +3,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { heroChevronDown, heroWrench } from '@ng-icons/heroicons/outline';
 import { UsersService } from '../../services/api/users.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar',
   standalone: true,
-  imports: [CommonModule, NgIconComponent],
+  imports: [CommonModule, NgIconComponent, RouterLink],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

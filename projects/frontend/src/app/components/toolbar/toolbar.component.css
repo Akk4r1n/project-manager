@@ -1,3 +1,3 @@
 :host {
-  @apply flex h-16 justify-between p-2 z-10 shadow-lg hover:shadow-xl;
+  @apply flex h-16 justify-between p-2 z-10 shadow-lg hover:shadow-xl items-center;
 }
