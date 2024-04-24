@@ -1,7 +1,7 @@
 from typing import List, Sequence
-from sqlalchemy import select
+from sqlalchemy import select, or_
 from typing import Optional
-from src.database.models import Project, User
+from src.database.models import Project, User, ProjectMember
 from src.services import chat_service, task_service
 from secrets import token_urlsafe
 from datetime import datetime, timedelta
@@ -39,6 +39,14 @@ def create(title: str, description: str, owner: User, db: ORM_Session) -> Projec
 
 def read_all(db: ORM_Session) -> Sequence[Project]:
     return db.execute(select(Project)).scalars().all()
+
+
+def read_all_by_user(user: User, db: ORM_Session) -> Sequence[Project]:
+    stmt = select(Project).join(
+        ProjectMember,
+        or_(Project.owner_email == user.email, ProjectMember.user_email == user.email),
+    )
+    return db.execute(stmt).scalars().all()
 
 
 def read(uuid: str, db: ORM_Session) -> Optional[Project]:
