@@ -39,8 +39,6 @@ class ProjectResponse(BaseModel):
     messages_count: int
     tasks_count: int
 
-    member_users: List[UserResponse]
-
 
 class CreateProjectRequest(BaseModel):
     title: str

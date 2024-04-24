@@ -23,23 +23,15 @@ import {
 import { TaskCardComponent } from '../../components/task-card/task-card.component';
 import {
   FormBuilder,
-  FormControl,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { TaskFormDialogComponent } from '../../components/task-form-dialog/task-form-dialog.component';
-import {
-  ProjectMemberResponse,
-  ProjectResponse,
-  TaskResponse,
-  UserResponse,
-} from '../../services/api/models';
+import { ProjectResponse, TaskResponse } from '../../services/api/models';
 import { ProjectsService } from '../../services/api/projects.service';
 import { Observable } from 'rxjs';
 import { TasksService } from '../../services/api/tasks.service';
-import { MatSelectModule } from '@angular/material/select';
-import { ProjectMemberFormDialogComponent } from '../../components/project-member-form-dialog/project-member-form-dialog.component';
 
 @Component({
   selector: 'app-project-detail',
@@ -65,29 +57,10 @@ import { ProjectMemberFormDialogComponent } from '../../components/project-membe
     FormsModule,
     DatePipe,
     TaskFormDialogComponent,
-    MatSelectModule,
-    ProjectMemberFormDialogComponent,
   ],
 })
 export class ProjectDetailComponent implements OnInit {
   public selectedCountries: any[] = [];
-
-  toppings = new FormControl('');
-
-  toppingList: string[] = [
-    'Extra cheese',
-    'Mushroom',
-    'Onion',
-    'Pepperoni',
-    'Sausage',
-    'Tomato',
-    'Extra cheese',
-    'Mushroom',
-    'Onion',
-    'Pepperoni',
-    'Sausage',
-    'Tomato',
-  ];
 
   public countries: any[] = [
     {
@@ -105,8 +78,6 @@ export class ProjectDetailComponent implements OnInit {
   public _uuid!: string;
 
   @ViewChild('taskFormDialog') taskFormDialog!: TaskFormDialogComponent;
-  @ViewChild('projectMemberFormDialog')
-  projectMemberFormDialog!: ProjectMemberFormDialogComponent;
 
   selectedTask?: TaskResponse;
 
@@ -149,10 +120,6 @@ export class ProjectDetailComponent implements OnInit {
     }
   }
 
-  onProjectMemberSubmit(members: UserResponse[]) {
-    console.warn(members);
-  }
-
   onSubmit(entity: TaskResponse) {
     console.log('Submitting task:', entity);
 
@@ -187,11 +154,6 @@ export class ProjectDetailComponent implements OnInit {
           this.tasks$ = this.tasksService.getAll(this.project.uuid);
         });
     }
-  }
-
-  onAddMemberClick() {
-    if (this.project === null) return;
-    this.projectMemberFormDialog.openDialog(this.project);
   }
 
   onEditClick(task: TaskResponse) {

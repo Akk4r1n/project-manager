@@ -11,12 +11,7 @@
         <img class="rounded-full" alt="profile" src="assets/avatar_one.png" />
       </div>
 
-      <button
-        (click)="onAddMemberClick()"
-        class="btn btn-primary btn-sm btn-circle"
-      >
-        +
-      </button>
+      <button class="btn btn-primary btn-sm btn-circle">+</button>
 
       <span class="flex-grow min-w-4"></span>
 
@@ -62,27 +57,3 @@
   [entity]="selectedTask"
   (onSubmit)="onSubmit($event)"
 ></app-task-form-dialog>
-
-<app-project-member-form-dialog
-  #projectMemberFormDialog
-  [entity]="project ?? undefined"
-  (onSubmit)="onProjectMemberSubmit($event)"
-></app-project-member-form-dialog>
-
-<!-- <mat-form-field>
-  <mat-label>Toppings</mat-label>
-  <mat-select [formControl]="toppings" multiple>
-    <mat-select-trigger>
-      {{toppings.value?.[0] || ''}}
-      @if ((toppings.value?.length || 0) > 1) {
-      <span class="example-additional-selection">
-        (+{{ (toppings.value?.length || 0) - 1 }}
-        {{ toppings.value?.length === 2 ? "other" : "others" }})
-      </span>
-      }
-    </mat-select-trigger>
-    @for (topping of toppingList; track topping) {
-    <mat-option [value]="topping">{{ topping }}</mat-option>
-    }
-  </mat-select>
-</mat-form-field> -->
