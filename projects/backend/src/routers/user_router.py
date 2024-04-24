@@ -6,7 +6,7 @@ from fastapi import (
     APIRouter,
 )
 from fastapi.responses import RedirectResponse
-from typing import Annotated
+from typing import Annotated, List
 from src.config import load_settings
 from src.database.database import get_db
 from src.database.models import User
@@ -54,7 +54,7 @@ def set_cookies(user: User, session_id: str, response: Response):
     )
 
 
-@router.post("/login", tags=["user"])
+@router.post("/login", tags=["users"])
 def login(
     model: api.UserLoginRequest,
     response: Response,
@@ -80,7 +80,7 @@ def login(
     set_cookies(user=user, session_id=session.id, response=response)
 
 
-@router.post("/register", tags=["user"], response_model=api.UserResponse)
+@router.post("/register", tags=["users"], response_model=api.UserResponse)
 def register(
     model: api.UserRegisterRequest,
     db: Annotated[ORM_Session, Depends(get_db)],
@@ -97,7 +97,7 @@ def register(
     return user_service.create_user(model.email, model.name, model.password_plain, db)
 
 
-@router.post("/logout", tags=["user"])
+@router.post("/logout", tags=["users"])
 def logout(
     response: Response,
     user: Annotated[User, Depends(get_current_user)],
@@ -110,3 +110,11 @@ def logout(
     # tell the client to delete the cookie
     response.delete_cookie(key="session_id")
     response.delete_cookie(key="user_session")
+
+
+@router.get("/", tags=["users"], response_model=List[api.UserResponse])
+def get_users(
+    user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[ORM_Session, Depends(get_db)],
+):
+    return user_service.get_users(db)

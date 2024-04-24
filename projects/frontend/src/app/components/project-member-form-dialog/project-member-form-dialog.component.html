@@ -1,0 +1,36 @@
+<dialog #projectMemberModal class="modal">
+  <div class="modal-box max-h-[75%]">
+    <form
+      method="dialog"
+      class="w-full flex flex-col gap-3 max-w-5xl"
+      [formGroup]="formGroup"
+    >
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+        ✕
+      </button>
+
+      <app-multi-select
+        [entities]="allUsers"
+        [(selectedEntities)]="selectedUsers"
+        label="Project members"
+        [textFormatter]="textFormatter"
+        [isReadonly]="isReadonly"
+      >
+        <ng-template let-data="data">
+          <div class="w-full flex gap-2 items-center">
+            <span class="">{{ data.name }}</span>
+            <span class="text-gray-400 text-sm">{{ data.email }}</span>
+          </div>
+        </ng-template>
+      </app-multi-select>
+
+      <button
+        (click)="_onSubmit()"
+        [disabled]="!formGroup.valid"
+        class="btn btn-primary w-full mt-4"
+      >
+        Save changes
+      </button>
+    </form>
+  </div>
+</dialog>

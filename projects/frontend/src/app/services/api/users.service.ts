@@ -30,4 +30,10 @@ export class UsersService {
       {}
     );
   }
+
+  getAll(): Observable<UserResponse[]> {
+    return this.http.get<UserResponse[]>(
+      `${this.configService.getUrl()}/users`
+    );
+  }
 }

@@ -28,10 +28,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { TaskFormDialogComponent } from '../../components/task-form-dialog/task-form-dialog.component';
-import { ProjectResponse, TaskResponse } from '../../services/api/models';
+import {
+  ProjectResponse,
+  TaskResponse,
+  UserResponse,
+} from '../../services/api/models';
 import { ProjectsService } from '../../services/api/projects.service';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { TasksService } from '../../services/api/tasks.service';
+import { ProjectMemberFormDialogComponent } from '../../components/project-member-form-dialog/project-member-form-dialog.component';
+import { UsersService } from '../../services/api/users.service';
+import { MembersService } from '../../services/api/members.service';
 
 @Component({
   selector: 'app-project-detail',
@@ -57,6 +64,7 @@ import { TasksService } from '../../services/api/tasks.service';
     FormsModule,
     DatePipe,
     TaskFormDialogComponent,
+    ProjectMemberFormDialogComponent,
   ],
 })
 export class ProjectDetailComponent implements OnInit {
@@ -78,12 +86,16 @@ export class ProjectDetailComponent implements OnInit {
   public _uuid!: string;
 
   @ViewChild('taskFormDialog') taskFormDialog!: TaskFormDialogComponent;
+  @ViewChild('projectMemberFormDialog')
+  projectMemberFormDialog!: ProjectMemberFormDialogComponent;
 
   selectedTask?: TaskResponse;
 
-  public project: ProjectResponse | null = null;
+  public project!: ProjectResponse;
 
   public tasks$!: Observable<TaskResponse[]>;
+
+  public allUsers$!: Observable<UserResponse[]>;
 
   public taskControls = {
     uuid: ['', [Validators.required]],
@@ -105,7 +117,9 @@ export class ProjectDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private projectsService: ProjectsService,
-    private tasksService: TasksService
+    private tasksService: TasksService,
+    private usersService: UsersService,
+    private membersService: MembersService
   ) {}
 
   ngOnInit(): void {
@@ -118,14 +132,39 @@ export class ProjectDetailComponent implements OnInit {
         this.tasks$ = this.tasksService.getAll(this.project.uuid);
       });
     }
+
+    this.allUsers$ = this.usersService.getAll();
+  }
+
+  onProjectMemberSubmit(members: UserResponse[]) {
+    const membersToAdd = members
+      .map((m) => m.email)
+      .filter(
+        (item) => !this.project?.member_users.map((p) => p.email).includes(item)
+      );
+
+    const membersToDelete = this.project?.member_users
+      .map((p) => p.email)
+      .filter((item) => !members.map((p) => p.email).includes(item));
+
+    forkJoin([
+      this.membersService.delete(this.project?.uuid, {
+        user_emails: membersToDelete,
+      }),
+      this.membersService.create(this.project?.uuid, {
+        user_emails: membersToAdd,
+      }),
+    ]).subscribe((res) => {
+      // TODO: dont make a request to get the entire project again?
+      this.projectsService.get(this._uuid).subscribe((res) => {
+        this.project = res;
+
+        this.tasks$ = this.tasksService.getAll(this.project.uuid);
+      });
+    });
   }
 
   onSubmit(entity: TaskResponse) {
-    console.log('Submitting task:', entity);
-
-    // TODO: fix typing
-    if (this.project === null) return;
-
     if (this.submitType === 'create') {
       this.tasksService
         .create(this.project.uuid, {
@@ -134,8 +173,6 @@ export class ProjectDetailComponent implements OnInit {
           planned_minutes: entity.planned_minutes,
         })
         .subscribe((res) => {
-          if (this.project === null) return;
-
           // TODO: use response instead of making another request
           this.tasks$ = this.tasksService.getAll(this.project.uuid);
         });
@@ -148,12 +185,14 @@ export class ProjectDetailComponent implements OnInit {
           planned_minutes: entity.planned_minutes,
         })
         .subscribe((res) => {
-          if (this.project === null) return;
-
           // TODO: use response instead of making another request
           this.tasks$ = this.tasksService.getAll(this.project.uuid);
         });
     }
+  }
+
+  onEditMemberClick() {
+    this.projectMemberFormDialog.openDialog(this.project);
   }
 
   onEditClick(task: TaskResponse) {
@@ -164,11 +203,6 @@ export class ProjectDetailComponent implements OnInit {
 
   onCreateClick() {
     this.submitType = 'create';
-
-    // TODO: use auth guards and other validations to ensure that the project is always set
-    if (this.project === null) {
-      return;
-    }
 
     this.selectedTask = {
       uuid: '<Will be set on the backend>',

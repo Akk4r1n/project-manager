@@ -3,15 +3,19 @@
     <span class="text-lg font-bold">{{ project.title }}</span>
     <span class="text-gray-600 text-sm">{{ project.description }}</span>
     <div class="flex items-center gap-y-4 flex-wrap">
-      <div class="w-8">
+      <div
+        class="w-8"
+        *ngFor="let member of project.member_users | slice : 0 : 5"
+      >
         <img class="rounded-full" alt="profile" src="assets/no-profile.png" />
       </div>
 
-      <div class="w-8">
-        <img class="rounded-full" alt="profile" src="assets/no-profile.png" />
-      </div>
-
-      <button class="btn btn-primary btn-sm btn-circle">+</button>
+      <button
+        (click)="onEditMemberClick()"
+        class="btn btn-primary btn-sm btn-circle"
+      >
+        +
+      </button>
 
       <span class="flex-grow min-w-4"></span>
 
@@ -57,3 +61,10 @@
   [entity]="selectedTask"
   (onSubmit)="onSubmit($event)"
 ></app-task-form-dialog>
+
+<app-project-member-form-dialog
+  #projectMemberFormDialog
+  [entity]="project ?? undefined"
+  (onSubmit)="onProjectMemberSubmit($event)"
+  [allUsers]="(allUsers$ | async) ?? []"
+></app-project-member-form-dialog>

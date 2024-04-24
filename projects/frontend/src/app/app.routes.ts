@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { ProjectsComponent } from './views/projects/projects.component';
 import { ProjectDetailComponent } from './views/project-detail/project-detail.component';
 import { ProjectChatComponent } from './views/project-chat/project-chat.component';
+import { MultiSelectComponent } from './components/multi-select/multi-select.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'projects', pathMatch: 'full' },
@@ -18,5 +19,9 @@ export const routes: Routes = [
   {
     path: 'projects/:uuid/chat',
     component: ProjectChatComponent,
+  },
+  {
+    path: 'multi-select',
+    component: MultiSelectComponent,
   },
 ];

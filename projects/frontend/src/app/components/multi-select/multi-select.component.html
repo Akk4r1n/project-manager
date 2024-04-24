@@ -1,0 +1,73 @@
+<!-- <label class="form-control w-full">
+  <div class="label">
+    <span class="label-text">Uuid</span>
+  </div>
+  <input
+    readonly
+    formControlName="uuid"
+    class="input input-bordered input-md border-gray-300 w-full resize-none input-disabled min-h-0"
+  />
+</label>
+
+
+
+<form>
+  <fieldset>
+    <legend>Cars</legend>
+    <ul>
+      <li>
+        <label for="bmw">BMW</label>
+        <input type="checkbox" id="bmw" name="bmw" value="bmw" />
+      </li>
+      <li>
+        <label for="citroen">Citroen</label>
+        <input type="checkbox" id="citroen" name="citroen" value="citroen" />
+      </li>
+      <li>
+        <label for="skoda">Skoda</label>
+        <input type="checkbox" id="skoda" name="skoda" value="skoda" />
+      </li>
+      <li>
+        <label for="volvo">Volvo</label>
+        <input type="checkbox" id="volvo" name="volvo" value="volvo" />
+      </li>
+    </ul>
+  </fieldset>
+</form> -->
+
+<div class="">
+  <div class="label">
+    <span class="label-text">{{ label }}</span>
+  </div>
+  <button
+    type="button"
+    (click)="toggleDropdown()"
+    class="input input-bordered input-md w-full resize-none min-h-0 flex items-center justify-between"
+  >
+    <span>{{ dropdownText }}</span>
+    <ng-icon
+      size="24px"
+      class="text-gray-600 rounded-full hover:cursor-pointer"
+      [name]="getIcon()"
+    ></ng-icon>
+  </button>
+  <div *ngIf="dropdownState === 'open'" class="p-2 rounded-b-lg shadow-lg">
+    <div
+      class="label cursor-pointer flex gap-2"
+      *ngFor="let entity of entities"
+    >
+      <input
+        type="checkbox"
+        [disabled]="isReadonly(entity)"
+        [checked]="selectedEntities.includes(entity)"
+        (change)="onSelectChange($event.target, entity)"
+        class="checkbox checkbox-primary checkbox-sm"
+      />
+      <ng-container
+        [ngTemplateOutlet]="optionTemplate"
+        [ngTemplateOutletContext]="{ data: entity }"
+      >
+      </ng-container>
+    </div>
+  </div>
+</div>
