@@ -1,0 +1,60 @@
+name: local
+
+services:
+  database:
+    image: mariadb:11.2
+    volumes:
+      - ./database_volume:/var/lib/mysql
+      - ../../projects/database/01_structure.sql:/docker-entrypoint-initdb.d/01_structure.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mariadb-admin ping -h 127.0.0.1 --password=$MYSQL_ROOT_PASSWORD",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    ports:
+      - 3306:3306
+    networks:
+      - local
+
+  phpmyadmin:
+    image: phpmyadmin:5.2.1
+    environment:
+      - PMA_HOST=database
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - 8080:80
+    networks:
+      - local
+
+  backend:
+    build: ../../projects/backend/
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend_config/.env:/app/.env
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - local
+
+  frontend:
+    build: ../../projects/frontend/
+    ports:
+      - "4200:80"
+    volumes:
+      - ./frontend_config/config.json:/usr/share/nginx/html/assets/config.json
+    networks:
+      - local
+
+networks:
+  local:
+    name: local
