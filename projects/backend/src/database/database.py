@@ -9,21 +9,22 @@ from src.config import load_settings
 
 settings = load_settings()
 
-DATABASE = (
-    "mysql+mysqlconnector://%s:%s@%s/%s?charset=utf8mb4&collation=utf8mb4_unicode_ci"
-    % (
-        settings.DB_USER,
-        settings.DB_PASSWORD,
-        settings.DB_HOST,
-        settings.DB_NAME,
-    )
-)
 
 if settings.DB_TYPE == "mysql":
+    DATABASE = (
+        "mysql+mysqlconnector://%s:%s@%s/%s?charset=utf8mb4&collation=utf8mb4_unicode_ci"
+        % (
+            settings.DB_USER,
+            settings.DB_PASSWORD,
+            settings.DB_HOST,
+            settings.DB_NAME,
+        )
+    )
     engine = create_engine(DATABASE, pool_recycle=3600, max_overflow=100)
 elif settings.DB_TYPE == "sqlite":
+    DATABASE = "sqlite:///%s.db" % (settings.DB_NAME,)
     engine = create_engine(
-        "sqlite:///sqlite.db",
+        DATABASE,
         poolclass=NullPool,
         connect_args={"check_same_thread": False},
     )
