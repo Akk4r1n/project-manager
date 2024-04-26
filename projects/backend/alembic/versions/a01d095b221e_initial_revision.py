@@ -36,7 +36,7 @@ def upgrade() -> None:
     sa.Column('uuid', sa.String(length=255), nullable=False),
     sa.Column('author_email', sa.String(length=255), nullable=False),
     sa.Column('chat_uuid', sa.String(length=255), nullable=False),
-    sa.Column('content', sa.String(length=1000), nullable=False),
+    sa.Column('content', sa.String(length=5000), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['author_email'], ['users.email'], ),
     sa.ForeignKeyConstraint(['chat_uuid'], ['chats.uuid'], ),
