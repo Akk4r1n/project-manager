@@ -1,0 +1,4 @@
+.env
+database_volume
+config.json
+nginx.conf

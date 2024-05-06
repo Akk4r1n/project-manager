@@ -1,0 +1,80 @@
+name: project-manager
+
+services:
+  gateway:
+    container_name: project-manager_gateway
+    image: nginxinc/nginx-unprivileged:1.21.4
+    networks:
+      - project-manager
+      - gateway
+    depends_on:
+      - frontend
+      - backend
+      - database
+      - phpmyadmin
+    volumes:
+      - ./gateway_config/nginx.conf:/etc/nginx/conf.d/nginx.conf
+
+  database:
+    image: mariadb:11.2
+    container_name: project-manager_database
+    volumes:
+      - ./database_volume:/var/lib/mysql
+      - ../../projects/database/01_structure.sql:/docker-entrypoint-initdb.d/01_structure.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mariadb-admin ping -h 127.0.0.1 --password=$MYSQL_ROOT_PASSWORD",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    ports:
+      - 3306:3306
+    networks:
+      - project-manager
+
+  phpmyadmin:
+    image: phpmyadmin:5.2.1
+    container_name: project-manager_phpmyadmin
+    environment:
+      - PMA_HOST=database
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - 8080:80
+    networks:
+      - project-manager
+
+  backend:
+    build: ../../projects/backend/
+    container_name: project-manager_backend
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend_config/.env:/app/.env
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - project-manager
+
+  frontend:
+    build: ../../projects/frontend/
+    container_name: project-manager_frontend
+    ports:
+      - "4200:80"
+    volumes:
+      - ./frontend_config/config.json:/usr/share/nginx/html/assets/config.json
+    networks:
+      - project-manager
+
+networks:
+  project-manager:
+    name: project-manager
+  gateway:
+    external: true

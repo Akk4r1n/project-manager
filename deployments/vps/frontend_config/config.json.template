@@ -1,0 +1,7 @@
+{
+  "backend": {
+    "protocol": "https",
+    "host": "project-manager.akkarin.de",
+    "port": 443
+  }
+}
