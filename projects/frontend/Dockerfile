@@ -7,6 +7,6 @@ COPY . /app
 RUN npm run build
 
 # Stage 2: Use the compile app (which is ready for production) with Nginx
-FROM nginx:1.21.4
+FROM nginxinc/nginx-unprivileged:1.21.4
 COPY --from=build /app/dist/frontend/browser/ /usr/share/nginx/html
 COPY /nginx.conf /etc/nginx/conf.d/default.conf
