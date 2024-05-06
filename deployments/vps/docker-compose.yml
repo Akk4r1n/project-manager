@@ -32,8 +32,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
-    ports:
-      - 3306:3306
     networks:
       - project-manager
 
@@ -45,16 +43,12 @@ services:
     depends_on:
       database:
         condition: service_healthy
-    ports:
-      - 8080:80
     networks:
       - project-manager
 
   backend:
     build: ../../projects/backend/
     container_name: project-manager_backend
-    ports:
-      - "8000:80"
     volumes:
       - ./backend_config/.env:/app/.env
     depends_on:
@@ -66,8 +60,6 @@ services:
   frontend:
     build: ../../projects/frontend/
     container_name: project-manager_frontend
-    ports:
-      - "4200:80"
     volumes:
       - ./frontend_config/config.json:/usr/share/nginx/html/assets/config.json
     networks:
