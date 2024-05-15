@@ -5,6 +5,7 @@ A fullstack demo project to showcase the fullstack development with a real proje
 ## Features
 
 The following features are implemented:
+
 - MariaDB database for perstistant storage of all data
 - PhpMyAdmin interface for easy database administration
 - Python backend built with FastApi
@@ -30,4 +31,9 @@ The following features are implemented:
   - Template approach: Files with the suffix .template are commited into the vcs. Each environment can then have their own config while also securing possible sensible credentials
   - Usage of Docker Compose to group multiple Docker containers into stacks and ease the lifecycle of them
   - Usage of Docker Volumes to persist needed data like the database volume to persist the database start through a restart
-  - Monorepository: All projects are managed in one single vcs repository. This simplifies the development and deployment for small to medium projects and small developer groups 
+  - Monorepository: All projects are managed in one single vcs repository. This simplifies the development and deployment for small to medium projects and small developer groups
+
+## Todo
+
+- Responsive webapp
+- Unit tests in backend
