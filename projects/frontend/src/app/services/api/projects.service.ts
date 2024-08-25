@@ -16,7 +16,7 @@ export class ProjectsService {
 
   getAll(): Observable<ProjectResponse[]> {
     return this.http.get<ProjectResponse[]>(
-      `${this.configService.getUrl()}/projects/`
+      `${this.configService.getUrl()}/projects`
     );
   }
 
@@ -28,7 +28,7 @@ export class ProjectsService {
 
   create(model: ProjectCreateRequest): Observable<ProjectResponse> {
     return this.http.post<ProjectResponse>(
-      `${this.configService.getUrl()}/projects/`,
+      `${this.configService.getUrl()}/projects`,
       model
     );
   }
