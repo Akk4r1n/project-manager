@@ -12,7 +12,7 @@ export class MessagesService {
 
   getAll(projectUuid: string): Observable<MessageResponse[]> {
     return this.http.get<MessageResponse[]>(
-      `${this.configService.getUrl()}/projects/${projectUuid}/chat/messages/`
+      `${this.configService.getUrl()}/projects/${projectUuid}/chat/messages`
     );
   }
 
@@ -21,7 +21,7 @@ export class MessagesService {
     model: MessageCreateRequest
   ): Observable<MessageResponse> {
     return this.http.post<MessageResponse>(
-      `${this.configService.getUrl()}/projects/${projectUuid}/chat/messages/`,
+      `${this.configService.getUrl()}/projects/${projectUuid}/chat/messages`,
       model
     );
   }

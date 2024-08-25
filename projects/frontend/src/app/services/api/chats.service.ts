@@ -12,7 +12,7 @@ export class ChatsService {
 
   get(projectUuid: string): Observable<ChatResponse> {
     return this.http.get<ChatResponse>(
-      `${this.configService.getUrl()}/projects/${projectUuid}/chat/`
+      `${this.configService.getUrl()}/projects/${projectUuid}/chat`
     );
   }
 }

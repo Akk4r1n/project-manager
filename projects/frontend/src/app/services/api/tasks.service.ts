@@ -27,7 +27,7 @@ export class TasksService {
     model: TaskCreateRequest
   ): Observable<TaskResponse> {
     return this.http.post<TaskResponse>(
-      `${this.configService.getUrl()}/projects/${projectUuid}/tasks/`,
+      `${this.configService.getUrl()}/projects/${projectUuid}/tasks`,
       model
     );
   }
